@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="./css/pets.css">
+  <link rel="stylesheet" href="./css/pets_queries.css">
+  <link rel="stylesheet" href="./css/popup.css">
+  <title>Cozy House - Our Pets</title>
+</head>
+<body>
+  <div class="overlay"></div>
+  <header class="header">
+    <div class="navbar content-width">
+      <div class="logo-container">
+        <div class="logo-title"><a class="link-common logo-link" href="./index.html">Cozy House</a></div>
+        <div class="logo-subtitle">Shelter for pets in Boston</div>
+      </div>
+      <div class="burger-menu">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </div>
+      <nav class="nav-container">
+        <ul class="nav-list">
+          <li class="nav-item"><a class="link-common nav-link" href="./index.html">About the shelter</a></li>
+          <li class="nav-item"><a class="link-common nav-link active" href="#">Our pets</a></li>
+          <li class="nav-item"><a class="link-common nav-link" href="./index.html#help">Help the shelter</a></li>
+          <li class="nav-item"><a class="link-common nav-link" href="#contacts">Contacts</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="main">
+    <div class="pets-popup"></div>
+    <div class="pets">
+      <div class="pets-content content-width">
+        <h1 class="pets-heading">
+          Our friends who <br>
+          are looking for a house
+        </h1>
+        <div class="cards-container" id="cards-container">
+        </div>
+        <div class="cards-navigation" id="cards-navigation">
+          <div class="cards-arrow arrow-1 first-arrow" id="first-arrow">&lt;&lt;</div>
+          <div class="cards-arrow arrow-2 prev-arrow" id="prev-arrow">&lt;</div>
+          <div class="cards-arrow arrow-3 current-arrow" id="current-arrow"></div>
+          <div class="cards-arrow arrow-4 next-arrow" id="next-arrow">&gt;</div>
+          <div class="cards-arrow arrow-5 last-arrow" id="last-arrow">&gt;&gt;</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer" id="contacts">
+    <div class="footer-content content-width">
+      <div class="footer-contacts">
+        <div class="footer-title contacts-title">For questions and suggestions</div>
+        <div class="footer-container contacts-email-container">
+          <a class="email-link link-common" href="mailto:email@shelter.com">
+            <div class="contacts-email-icon"></div>
+          </a>
+          <div class="footer-text contacts-email-text">
+            <a class="email-link link-common" href="mailto:email@shelter.com">email@shelter.com</a>
+          </div>
+        </div>
+        <div class="footer-container contacts-phone-container">
+          <a href="tel:+136745677554">
+            <div class="contacts-phone-icon"></div>
+          </a>
+          <div class="footer-text contacts-phone-number">
+            <a class="phone-link link-common" href="tel:+136745677554">+13 674 567 75 54</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-locations">
+        <div class="footer-title locations-title">We are waiting for your visit</div>
+        <div class="footer-container locations-container locations-container-boston">
+          <div class="locations-icon"></div>
+          <div class="footer-text locations-text">
+            <a class="link-common" href="https://goo.gl/maps/gTybNBvCqthiks7Z6" target="_blank">1 Central Street, Boston <br> (entrance from the store)</a>
+          </div>
+        </div>
+        <div class="footer-container locations-container locations-container-london">
+          <div class="locations-icon"></div>
+          <div class="footer-text locations-text">
+            <a class="link-common" href="https://goo.gl/maps/6fRNsAKacBsbEFyWA" target="_blank">18 South Park, London</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-img"></div>
+    </div>
+  </footer>
+  <script src="./pagination.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

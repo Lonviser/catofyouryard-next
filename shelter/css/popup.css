@@ -1,0 +1,293 @@
+/* ****************************** */
+/* POPUP (MODAL WINDOW)           */
+/* ****************************** */
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 15;
+  transition: all 0.5s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.popup.active {
+  opacity: 1;
+  pointer-events: all;
+  transition: all 0.5s;
+}
+
+body.popup-no-scroll {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+html,
+body {
+  scrollbar-gutter: stable;
+}
+
+.popup-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90rem;
+  height: 50rem;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, -50%) scale(0);
+  transition: all 0.5s;
+}
+
+.popup-container.active {
+  transform: translate(-50%, -50%) scale(1);
+  transition: all 0.5s;
+}
+
+.popup-btn {
+  position: fixed;
+  width: 5.2rem;
+  height: 5.2rem;
+  top: -5.2rem;
+  right: -4.2rem;
+  border: 0.2rem solid #f1cdb3;
+  border-radius: 10rem;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.popup-btn:link, 
+.popup-btn:visited{
+  background-color: none;
+}
+
+.popup-btn:hover, 
+.popup-btn:active {
+  background-color: #f1cdb3;
+}
+
+.popup-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 1.8rem;
+  background: url("../assets/svg/popup-icon.svg") no-repeat;
+}
+
+.popup-content {
+  width: 90rem;
+  height: 50rem;
+  display: flex;
+  box-shadow: 0rem 0.2rem 3.5rem 1.4rem rgba(13, 13, 13, 0.04);
+  background: #fafafa;
+  border-radius: 0.9rem;
+}
+
+.popup-img {
+  width: 50rem;
+  height: 50rem;
+  border-radius: 0.9rem 0rem 0rem 0.9rem;
+}
+
+.popup-img-0 {
+  background: url("../assets/img/pets-jennifer.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-1 {
+  background: url("../assets/img/pets-sophia.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-2 {
+  background: url("../assets/img/pets-woody.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-3 {
+  background: url("../assets/img/pets-scarlet.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-4 {
+  background: url("../assets/img/pets-katrine.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-5 {
+  background: url("../assets/img/pets-timmy.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-6 {
+  background: url("../assets/img/pets-freddie.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-img-7 {
+  background: url("../assets/img/pets-charly.png") no-repeat;
+  background-size: contain;
+}
+
+.popup-info {
+  width: 36rem;
+  height: 36.2rem;
+  margin-top: 5.1rem;
+  margin-left: 2.97rem;
+  color: #000000;
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.popup-title {
+  font-size: 3.5rem;
+  line-height: 4.5rem;
+  letter-spacing: 0.22rem;
+}
+
+.popup-subtitle {
+  margin-top: 0.9rem;
+  font-size: 2rem;
+  line-height: 2.3rem;
+  letter-spacing: 0.12rem;
+}
+
+.popup-description {
+  margin-top: 4rem;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+  letter-spacing: 0.11rem;
+}
+
+.popup-list {
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  letter-spacing: 0.1rem;
+}
+
+.popup-list li {
+  margin-bottom: 1rem;
+}
+
+.popup-list li::before {
+  content: "";
+  font-weight: 400;
+  color: #f1cdb3;
+  content: "•";
+  padding-right: 0.8rem;
+}
+
+
+
+/* ****************************** */
+/* MEDIA QUERIES                  */
+/* ****************************** */
+
+/* ****************************** */
+/* BELOW 1279.84px (79.99em)      */
+/* 1279.84px / 16px = 79.99       */
+/* ****************************** */
+
+@media (max-width: 79.99em) {
+  .popup-container {
+    width: 63rem;
+    min-height: 35rem;
+    height: fit-content;
+  }
+
+  .popup-content {
+    width: 63rem;
+    min-height: 35rem;
+    height: fit-content;
+  }
+  
+  .popup-img {
+    width: 35rem;
+    height: 35rem;
+  }
+  
+  .popup-info {
+    width: 26rem;
+    min-height: 30.3rem;
+    height: auto;
+    margin-top: 1rem;
+    margin-left: 1.1rem;
+  }
+  
+  .popup-description {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    line-height: 1.4rem;
+  }
+  
+  .popup-list {
+    height: auto;
+    margin-top: 2.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .popup-list li {
+    margin-bottom: 0.6rem;
+  }
+}
+
+
+/* ****************************** */
+/* BELOW 767px (47.9375em)        */
+/* 767px / 16px = 47.9375         */
+/* ****************************** */
+
+@media (max-width: 47.9375em) {
+  .popup-container {
+    width: 24rem;
+    min-height: 34.1rem;
+    height: fit-content;
+  }
+
+  .popup-btn {
+    right: -3rem;
+  }
+
+  .popup-content {
+    width: 24rem;
+    min-height: 34.1rem;
+    height: fit-content;
+  }
+
+  .popup-img {
+    display: none;
+  }
+  
+  .popup-info {
+    width: 22rem;
+    min-height: 32.1rem;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 1rem;
+  }
+
+  .popup-title {
+    text-align: center;
+  }
+
+  .popup-subtitle {
+    text-align: center;
+  }
+  
+  .popup-description {
+    text-align: justify;
+  }
+
+  .popup-list {
+    height: auto;
+    margin-bottom: 1rem;
+  }
+}
