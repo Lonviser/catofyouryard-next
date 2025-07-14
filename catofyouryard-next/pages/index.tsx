@@ -1,21 +1,20 @@
-import { GetStaticProps } from 'next';
-import { getPosts, WPPost } from '../lib/api';
+import { getPosts, WPPost } from '@/lib/api';
 
 interface HomeProps {
   posts: WPPost[];
   error?: string;
 }
 
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  try {
-    const posts = await getPosts();
-    return { props: { posts } };
-  } catch (error) {
-    return { props: { posts: [], error: error.message } };
-  }
-};
+export default async function Home() {
+  let posts: WPPost[] = [];
+  let error = '';
 
-export default function Home({ posts, error }: HomeProps) {
+  try {
+    posts = await getPosts();
+  } catch (err) {
+    error = err instanceof Error ? err.message : 'Неизвестная ошибка';
+  }
+
   if (error) {
     return <div>Ошибка: {error}</div>;
   }

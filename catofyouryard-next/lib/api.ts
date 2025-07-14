@@ -1,5 +1,5 @@
 export async function getPosts(): Promise<WPPost[]> {
-  const res = await fetch('http://localhost/mur/wp-json/wp/v2/posts');
+  const res = await fetch('http://catsoftoyouryard.local/wp-json/wp/v2/posts');
   
   if (!res.ok) {
     throw new Error(`HTTP error! status: ${res.status}`);
@@ -9,7 +9,7 @@ export async function getPosts(): Promise<WPPost[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<WPPost> {
-  const res = await fetch(`http://localhost/mur/wp-json/wp/v2/posts?slug=${slug}`);
+  const res = await fetch(`http://catsoftoyouryard.local/wp-json/wp/v2/posts?slug=${slug}`);
   
   if (!res.ok) {
     throw new Error(`HTTP error! status: ${res.status}`);
@@ -40,7 +40,7 @@ interface WPPet extends WPPost {
 
 export async function getPets(): Promise<WPPet[]> {
   try {
-    const res = await fetch('http://localhost/mur/wp-json/wp/v2/pets?_embed',{
+    const res = await fetch('http://catsoftoyouryard.local/wp-json/wp/v2/pets?_embed',{
             next: { revalidate: 60 } // Обновление данных каждые 60 сек
     });
     
