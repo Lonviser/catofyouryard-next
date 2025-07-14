@@ -1,71 +1,60 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import Image from 'next/image';
 import styles from './Header.module.scss';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
-
   return (
     <header className={styles.header}>
-      <div className={styles.navbar}>
-        <div className={styles.logoContainer}>
-          <div className={styles.logoTitle}>
-            <Link href="/" className={styles.logoLink}>
-              Cozy House
-            </Link>
+      <div className={`container ${styles.header__container}`}>
+        <div className={styles.header__logoblock}>
+          {/* Оптимизированное изображение */}
+          <Image 
+            src="/logo.svg"  // Обрати внимание на слеш в начале!
+            alt="Логотип"
+            width={100}      // Обязательно укажи ширину и высоту
+            height={100}
+          />
+          <div className={styles.header__logoTitle}>
+            <Link href="/">Кошки <br /> вашего <br /> двора</Link>
           </div>
-          <div className={styles.logoSubtitle}>Кошки вашего города</div>
         </div>
 
-        <div 
-          className={`${styles.burgerMenu} ${isMenuOpen ? styles.active : ''}`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <span className={styles.burgerLine}></span>
-          <span className={styles.burgerLine}></span>
-          <span className={styles.burgerLine}></span>
-        </div>
+        <div className={styles.header__main}>
+          {/* Поиск и контакты */}
+          <div className={styles.header__info}>
+            <div className={styles.header__infoSearch}>
+              <input 
+                type="text" 
+                placeholder="Поиск" 
+                aria-label="Поиск по сайту"
+              />
+              <a href="tel:+79303025121" aria-label="Позвонить по номеру +7 930 302-51-21">
+                +7 (930) 302-51-21
+              </a>
+              <a href="tel:+79935662070" aria-label="Позвонить по номеру +7 993 566-20-70">
+                +7 (993) 566-20-70
+              </a>
+            </div>
+          </div>
 
-        <nav className={`${styles.navContainer} ${isMenuOpen ? styles.active : ''}`}>
-          <ul className={styles.navList}>
-             <li className={styles.navItem}>
-              <Link 
-                href="/about-us" 
-                className={`${styles.navLink} ${router.pathname === '/about-us' ? styles.active : ''}`}
-              >
-                О нас
-              </Link>
-            </li>           
-            <li className={styles.navItem}>
-              <Link 
-                href="/pets" 
-                className={`${styles.navLink} ${router.pathname === '/pets' ? styles.active : ''}`}
-              >
-                Взять котика
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link 
-                href="#help" 
-                className={styles.navLink}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Помочь приюту
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link 
-                href="#contacts" 
-                className={styles.navLink}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Контакты
-              </Link>
-            </li>
-          </ul>
-        </nav>
+          {/* Навигационное меню */}
+          <nav className={styles.header__menu} aria-label="Основное меню">
+            <ul>
+              {[
+                { href: "/about", text: "О нас" },
+                { href: "/help", text: "Помочь" },
+                { href: "/cats", text: "Взять котика" },
+                { href: "/blog", text: "Блог" },
+                { href: "/hospital", text: "Домашний стационар" },
+                { href: "/reviews", text: "Отзывы" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.text}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
     </header>
   );
