@@ -1,8 +1,15 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Header.module.scss';
+import { useState } from 'react'; 
+
 
 export default function Header() {
+
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+
   return (
     <header className={styles.header}>
       <div className={`container ${styles.header__container}`}>
@@ -69,6 +76,16 @@ export default function Header() {
             </ul>
           </nav>
         </div>
+
+              <button
+              className={`${styles.burger} ${isMenuOpen ? styles.burgerActive : ''}`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Открыть меню"
+              aria-expanded={isMenuOpen}
+              >
+                <div className={styles.burgerLines}></div>
+              </button>
+
       </div>
     </header>
   );
