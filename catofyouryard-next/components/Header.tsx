@@ -28,12 +28,26 @@ export default function Header() {
                 placeholder="Поиск" 
                 aria-label="Поиск по сайту"
               />
-              <a href="tel:+79303025121" aria-label="Позвонить по номеру +7 930 302-51-21">
-                +7 (930) 302-51-21
-              </a>
-              <a href="tel:+79935662070" aria-label="Позвонить по номеру +7 993 566-20-70">
-                +7 (993) 566-20-70
-              </a>
+              <div className={styles.header__infoCont}>
+                <a href="tel:+79303025121" aria-label="Позвонить по номеру +7 930 302-51-21">
+                  +7 (930) 302-51-21
+                </a>
+                <a href="tel:+79935662070" aria-label="Позвонить по номеру +7 993 566-20-70">
+                  +7 (993) 566-20-70
+                </a>
+                <a href="">
+                  <Image 
+                  src="/vk.svg"  // Обрати внимание на слеш в начале!
+                  alt="vk.com"
+                  width={24}      // Обязательно укажи ширину и высоту
+                  height={24}
+                />
+                </a>
+                <a className={styles.header__infoHelp} href="">
+                  Помочь
+                </a>
+              </div>
+
             </div>
           </div>
 
