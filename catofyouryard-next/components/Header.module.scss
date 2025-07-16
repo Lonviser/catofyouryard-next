@@ -1,18 +1,22 @@
-// Переменные
+// Color Variables
 $primary-color: #EBCEA2;
 $secondary-color: #AF7044;
 $white-color: #fff;
 $text-color: #212121;
-$container-width: 1400px;
 
+// Layout Variables
+$container-width: 1400px;
+// Header Base Styles
 .header {
   height: 100px;
-  padding: 10px 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: $primary-color;
   position: sticky;
   top: 0;
   z-index: 100;
 
+  // Container
   &__container {
     max-width: $container-width;
     margin: 0 auto;
@@ -23,6 +27,7 @@ $container-width: 1400px;
     gap: 20px;
   }
 
+  // Logo Block
   &__logoblock {
     display: flex;
     align-items: center;
@@ -32,35 +37,9 @@ $container-width: 1400px;
     }
   }
 
-  &__main {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    @media (max-width: 768px) {
-      display: none;
-      position: absolute;
-      top: 100px;
-      left: 0;
-      right: 0;
-      background: $primary-color;
-      padding: 20px;
-      z-index: 99;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      transform: translateY(-100%);
-      opacity: 0;
-
-      &.open {
-        display: flex;
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  }
-
+  // Logo Title
   &__logoTitle {
-    font-size: 16px; // Заменил vw на px для предсказуемости
+    font-size: 1.14vw;
     font-weight: 700;
     color: $secondary-color;
 
@@ -70,22 +49,57 @@ $container-width: 1400px;
     }
   }
 
+  // Main Navigation
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  // Menu
+  &__menu {
+    ul {
+      display: flex;
+      gap: 0.71vw;
+      list-style: none;
+      padding: 0;
+
+      li a {
+        color: $white-color;
+        font-size: 1.29vw;
+        font-weight: 700;
+        line-height: 122%;
+        letter-spacing: 0.5px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s all;
+
+        &:hover {
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+
+  // Info Container
   &__infoCont {
     display: flex;
     align-items: center;
-    gap: 10px; // Заменил vw на px
+    gap: 0.71vw;
   }
 
+  // Help Button
   &__infoHelp {
     border-radius: 5px;
     padding: 4px 13px;
-    background: $secondary-color;
+    background: rgb(175, 112, 68);
     font-size: 18px;
     font-weight: 700;
     line-height: 122%;
-    color: $white-color; // Добавил цвет текста для лучшей читаемости
+    letter-spacing: 0;
   }
 
+  // Search Bar
   &__infoSearch {
     display: flex;
     justify-content: space-between;
@@ -94,10 +108,10 @@ $container-width: 1400px;
 
     input {
       border: none;
-      background: $white-color;
+      background: rgb(255, 255, 255);
       border-radius: 4px;
-      padding: 6px 10px; // Заменил vw на px
-      font-size: 15px; // Заменил vw на px
+      padding: 0.43vw 0.71vw;
+      font-size: 1.07vw;
       color: rgb(154, 154, 154);
       font-weight: 400;
       line-height: 122%;
@@ -106,50 +120,20 @@ $container-width: 1400px;
     a {
       color: $white-color;
       text-decoration: none;
-      font-size: 22px; // Заменил vw на px
+      font-size: 1.57vw;
       font-weight: 500;
       line-height: 122%;
-      transition: color 0.3s ease;
+      letter-spacing: 0;
+      transition: 0.5s all;
 
       &:hover {
         color: $secondary-color;
       }
     }
   }
-
-  &__menu {
-    ul {
-      display: flex;
-      gap: 10px; // Заменил vw на px
-      list-style: none;
-      padding: 0;
-
-      li a {
-        color: $white-color;
-        font-family: Arial, sans-serif; // Исправил: заменил $white-color на шрифт
-        font-size: 18px; // Заменил vw на px
-        font-weight: 700;
-        line-height: 122%;
-        letter-spacing: 0.5px;
-        text-align: center;
-        text-transform: uppercase;
-        transition: color 0.3s ease;
-
-        &:hover {
-          color: $secondary-color;
-        }
-      }
-    }
-
-    @media (max-width: 768px) {
-      ul {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  }
 }
 
+// Burger Menu
 .burger {
   display: none;
   background: none;
@@ -158,34 +142,30 @@ $container-width: 1400px;
   padding: 10px;
   z-index: 100;
 
-  @media (max-width: 768px) {
-    display: block;
-  }
-}
-
-.burgerLines {
-  position: relative;
-  width: 24px;
-  height: 2px;
-  background: #333;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
+  .burgerLines {
+    position: relative;
+    width: 24px;
     height: 2px;
     background: #333;
-    transition: all 0.3s ease;
-  }
 
-  &::before {
-    top: -8px;
-  }
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #333;
+      transition: all 0.3s ease;
+    }
 
-  &::after {
-    top: 8px;
+    &::before {
+      top: -8px;
+    }
+
+    &::after {
+      top: 8px;
+    }
   }
 }
 
@@ -203,28 +183,113 @@ $container-width: 1400px;
   }
 }
 
+// Media Queries
 @media (min-width: 1400px) {
   .header {
     &__container {
       padding: 0 120px;
     }
+
+    &__logoTitle {
+      font-size: 16px;
+    }
+
+    &__infoCont {
+      gap: 10px;
+    }
+
+    &__infoSearch {
+      a {
+        font-size: 22px;
+      }
+
+      input {
+        border-radius: 4px;
+        padding: 6px 10px;
+        font-size: 15px;
+      }
+    }
+
+    &__infoHelp {
+      border-radius: 5px;
+      padding: 0.29vw 0.93vw;
+    }
+
+    &__menu {
+      ul {
+        gap: 10px;
+
+        li a {
+          font-size: 18px;
+        }
+      }
+    }
   }
 }
 
 @media (max-width: 768px) {
-  .header__logoTitle {
-    font-size: 16px;
+  .header {
+    height: 80px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    &__container {
+      padding: 0 20px;
+    }
+    &__menu{
+      ul{
+            flex-direction: column;
+            align-items: center;
+            li{
+              a{
+               font-size: 16px;
+              }
+            }
+      }
+    }
+    &__main {
+      display: none;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      background: $primary-color;
+      padding: 20px;
+      z-index: 99;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: translateY(-100%);
+      opacity: 0;
+      height: 100vh;
+
+      &.open {
+        display: flex;
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    &__logoTitle {
+      font-size: 16px;
+    }
+
+    &__infoSearch {
+      flex-direction: column;
+      input{
+        font-size: 16px;
+        width: 180px;
+        height: 30px;
+      }
+
+    }
+
+    &__infoCont {
+      flex-direction: column;
+      a{
+       font-size: 16px;
+      }
+    }
   }
 
-.header__main{
-  height: 100vh;
-}
-
-.header__infoSearch{
-  flex-direction: column;
-}
-
-.header__infoCont{
-  flex-direction: column;
-}
+  .burger {
+    display: block;
+  }
 }
