@@ -1,0 +1,140 @@
+@use "../../styles/variables" as v;  // ✅ Правильно// Header Base Styles
+
+
+.hero{
+    background: url('../../public/hero.jpg') no-repeat center center/cover;
+    height: calc(100vh - 100px);
+    max-height: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+    &__title{
+        color: v.$white-color;
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 122%;
+        text-align:center;
+    }
+    &__button{
+        height: 60px;
+        max-height: 237px;
+        padding-left: 62px;
+        padding-right: 62px;
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: v.$primary-color;
+        color: v.$white-color;
+        font-family: Arial;
+        font-size: 14.13px;
+        font-weight: 900;
+        line-height: 20px;
+        letter-spacing: 0%;
+        text-align: center;
+        text-transform: uppercase;
+        border: none;
+        transition: all 0.3s ease;
+        &:hover{
+            background: v.$secondary-color;
+        }
+    }
+}
+
+.about{
+    background-color: v.$background-color;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    &__title{
+        color:v.$text-color;
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 125%;
+        margin-bottom: 10px;
+    }
+    
+
+    &__container{
+        display: flex;
+        justify-content: space-between;
+        gap: 35px;
+    }
+
+    &__image{
+        img{
+        width: 36vw;
+        height: 35vw;
+        max-width: 576px;
+        max-height: 560px;
+        }
+    }
+
+    &__content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        p{
+            color: v.$text-color;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 179%;
+        }
+    }
+
+    &__link{
+        padding-top: 20px;
+        color: v.$secondary-color;
+    }
+}
+
+@media(min-width:769px) and (max-width: 1600px) {
+    .hero{
+        &__title{
+            font-size: 2.63vw;
+        }
+    }
+
+    .about{
+        &__title{
+            font-size: 2vw;
+        }
+        &__content{
+            font-size: 1.13vw;
+        }
+        &__content{
+            p{
+                font-size: 1.13vw;
+            }
+    }
+    }
+    
+}
+
+@media(max-width:769px){
+    .hero{
+            height: calc(100vh - 80px);
+            &__title{
+                font-size:36px;
+            }
+        &__button{
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+    }
+
+    .about{
+        &__container{
+            flex-direction: column;
+        }
+            &__image{
+                img{
+                width: 100%;
+                height: auto;
+                }
+            }
+    }
+}

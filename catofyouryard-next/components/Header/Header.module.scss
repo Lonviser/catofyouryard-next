@@ -1,24 +1,16 @@
-// Color Variables
-$primary-color: #EBCEA2;
-$secondary-color: #AF7044;
-$white-color: #fff;
-$text-color: #212121;
-
-// Layout Variables
-$container-width: 1400px;
-// Header Base Styles
+@use "../../styles/variables" as v;  // ✅ Правильно// Header Base Styles
 .header {
   height: 100px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: $primary-color;
+  background-color: v.$primary-color;
   position: sticky;
   top: 0;
   z-index: 100;
 
   // Container
   &__container {
-    max-width: $container-width;
+    max-width: v.$container-width;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -31,9 +23,9 @@ $container-width: 1400px;
   &__logoblock {
     display: flex;
     align-items: center;
-
-    img {
-      max-height: 67px;
+    img{
+      max-width: 66px;
+      max-height: 66px;
     }
   }
 
@@ -41,7 +33,7 @@ $container-width: 1400px;
   &__logoTitle {
     font-size: 1.14vw;
     font-weight: 700;
-    color: $secondary-color;
+    color: v.$secondary-color;
 
     a {
       text-decoration: none;
@@ -60,12 +52,13 @@ $container-width: 1400px;
   &__menu {
     ul {
       display: flex;
+      justify-content: space-between;
       gap: 0.71vw;
       list-style: none;
       padding: 0;
 
       li a {
-        color: $white-color;
+        color: v.$white-color;
         font-size: 1.29vw;
         font-weight: 700;
         line-height: 122%;
@@ -75,7 +68,7 @@ $container-width: 1400px;
         transition: 0.5s all;
 
         &:hover {
-          color: $secondary-color;
+          color: v.$secondary-color;
         }
       }
     }
@@ -89,15 +82,7 @@ $container-width: 1400px;
   }
 
   // Help Button
-  &__infoHelp {
-    border-radius: 5px;
-    padding: 4px 13px;
-    background: rgb(175, 112, 68);
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 122%;
-    letter-spacing: 0;
-  }
+
 
   // Search Bar
   &__infoSearch {
@@ -118,7 +103,7 @@ $container-width: 1400px;
     }
 
     a {
-      color: $white-color;
+      color: v.$white-color;
       text-decoration: none;
       font-size: 1.57vw;
       font-weight: 500;
@@ -127,8 +112,21 @@ $container-width: 1400px;
       transition: 0.5s all;
 
       &:hover {
-        color: $secondary-color;
+        color: v.$secondary-color;
       }
+    }
+  }
+    &__infoHelp {
+    border-radius: 5px;
+    padding: 4px 13px;
+    background: rgb(175, 112, 68);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 122%;
+    letter-spacing: 0;
+    transition: 0.3 all;
+    &:hover {
+      color: v.$primary-color !important;
     }
   }
 }
@@ -212,7 +210,7 @@ $container-width: 1400px;
 
     &__infoHelp {
       border-radius: 5px;
-      padding: 0.29vw 0.93vw;
+      padding: 4px 14px;
     }
 
     &__menu {
@@ -252,7 +250,7 @@ $container-width: 1400px;
       top: 80px;
       left: 0;
       right: 0;
-      background: $primary-color;
+      background: v.$primary-color;
       padding: 20px;
       z-index: 99;
       transition: transform 0.3s ease, opacity 0.3s ease;
@@ -269,6 +267,11 @@ $container-width: 1400px;
 
     &__logoTitle {
       font-size: 16px;
+    }
+
+    &__logoblock{
+      width: 66px;
+      height: 66px;
     }
 
     &__infoSearch {

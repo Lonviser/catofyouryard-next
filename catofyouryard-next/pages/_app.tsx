@@ -1,21 +1,19 @@
-import '@/styles/globals.css';
+import '../styles/globals.scss';
 import { Montserrat } from 'next/font/google';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import type { AppProps } from 'next/app';
 
-// Настройка шрифта Montserrat
 const montserrat = Montserrat({
-  subsets: ['latin', 'cyrillic'], // Поддержка латиницы и кириллицы
-  weight: ['400', '500', '700'], // Достаточные начертания
-  variable: '--font-montserrat', // Опционально: для использования CSS-переменной
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '700'],
+  variable: '--font-montserrat',
 });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    // Применяем шрифт ко всему приложению
     <div className={montserrat.className}>
       <Header />
-      {/* <Component {...pageProps} /> */}
+      <Component {...pageProps} /> 
     </div>
   );
 }

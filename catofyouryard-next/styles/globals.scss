@@ -1,0 +1,45 @@
+@use "./variables" as v; 
+
+html,
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+
+.container{
+    max-width: v.$container-width;
+    margin: 0 auto;
+    padding: 0 8.57vw;
+}
+@media(min-width:1600px){
+  .container{
+    padding: 0 120px;
+  }
+}
+
+
+@media(max-width: 768px){
+  .container{
+    padding: 0 20px;
+  }
+}
+

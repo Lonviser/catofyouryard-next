@@ -23,8 +23,8 @@ export default function Header() {
           <Image
             src="/logo.svg"
             alt="Логотип"
-            width={100}
-            height={100}
+            width={66}
+            height={66}
             priority // Добавляем priority для критически важных изображений
           />
           <div className={styles.header__logoTitle}>

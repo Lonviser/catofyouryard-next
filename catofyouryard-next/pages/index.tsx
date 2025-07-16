@@ -1,4 +1,5 @@
 import { getPosts, WPPost } from '@/lib/api';
+import Main from '@/components/Main/Main';
 
 interface HomeProps {
   posts: WPPost[];
@@ -20,15 +21,17 @@ export default async function Home() {
   }
 
   return (
-    <div>
-      <h1>Записи из WordPress</h1>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <a href={`/posts/${post.slug}`}>{post.title.rendered}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+        <Main />
+        {/* <h2>Записи из WordPress</h2>
+          <ul>
+            {posts.map((post) => (
+              <li key={post.id}>
+                <a href={`/posts/${post.slug}`}>{post.title.rendered}</a>
+              </li>
+            ))}
+          </ul> */}
+    </>
+
   );
 }
