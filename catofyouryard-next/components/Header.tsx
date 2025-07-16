@@ -2,64 +2,70 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Header.module.scss';
-import { useState } from 'react'; 
-
+import { useState } from 'react';
 
 export default function Header() {
-
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleBurgerClick = () => {
+    console.log('Burger clicked, isMenuOpen:', !isMenuOpen); // Для отладки
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <header className={styles.header}>
       <div className={`container ${styles.header__container}`}>
         <div className={styles.header__logoblock}>
-          {/* Оптимизированное изображение */}
-          <Image 
-            src="/logo.svg"  // Обрати внимание на слеш в начале!
+          <Image
+            src="/logo.svg"
             alt="Логотип"
-            width={100}      // Обязательно укажи ширину и высоту
+            width={100}
             height={100}
+            priority // Добавляем priority для критически важных изображений
           />
           <div className={styles.header__logoTitle}>
-            <Link href="/">Кошки <br /> вашего <br /> двора</Link>
+            <Link href="/" onClick={handleLinkClick}>
+              Кошки <br /> вашего <br /> двора
+            </Link>
           </div>
         </div>
 
-        <div className={styles.header__main}>
-          {/* Поиск и контакты */}
+        <div className={`${styles.header__main} ${isMenuOpen ? styles.open : ''}`}>
           <div className={styles.header__info}>
             <div className={styles.header__infoSearch}>
-              <input 
-                type="text" 
-                placeholder="Поиск" 
+              <input
+                type="text"
+                placeholder="Поиск"
                 aria-label="Поиск по сайту"
               />
               <div className={styles.header__infoCont}>
-                <a href="tel:+79303025121" aria-label="Позвонить по номеру +7 930 302-51-21">
+                <a href="tel:+79303025121" aria-label="Позвонить по номеру +7 930 302-51-21" onClick={handleLinkClick}>
                   +7 (930) 302-51-21
                 </a>
-                <a href="tel:+79935662070" aria-label="Позвонить по номеру +7 993 566-20-70">
+                <a href="tel:+79935662070" aria-label="Позвонить по номеру +7 993 566-20-70" onClick={handleLinkClick}>
                   +7 (993) 566-20-70
                 </a>
-                <a href="">
-                  <Image 
-                  src="/vk.svg"  // Обрати внимание на слеш в начале!
-                  alt="vk.com"
-                  width={24}      // Обязательно укажи ширину и высоту
-                  height={24}
-                />
+                <a href="" onClick={handleLinkClick}>
+                  <Image
+                    src="/vk.svg"
+                    alt="vk.com"
+                    width={24}
+                    height={24}
+                    priority
+                  />
                 </a>
-                <a className={styles.header__infoHelp} href="">
+                <a className={styles.header__infoHelp} href="" onClick={handleLinkClick}>
                   Помочь
                 </a>
               </div>
-
             </div>
           </div>
 
-          {/* Навигационное меню */}
-          <nav className={styles.header__menu} aria-label="Основное меню">
+          <nav className={styles.header__menu} aria-label="Основное меню" aria-hidden={!isMenuOpen}>
             <ul>
               {[
                 { href: "/about", text: "О нас" },
@@ -70,22 +76,23 @@ export default function Header() {
                 { href: "/reviews", text: "Отзывы" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href}>{item.text}</Link>
+                  <Link href={item.href} onClick={handleLinkClick}>
+                    {item.text}
+                  </Link>
                 </li>
               ))}
             </ul>
           </nav>
         </div>
 
-              <button
-              className={`${styles.burger} ${isMenuOpen ? styles.burgerActive : ''}`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Открыть меню"
-              aria-expanded={isMenuOpen}
-              >
-                <div className={styles.burgerLines}></div>
-              </button>
-
+        <button
+          className={`${styles.burger} ${isMenuOpen ? styles.burgerActive : ''}`}
+          onClick={handleBurgerClick}
+          aria-label="Открыть/закрыть меню"
+          aria-expanded={isMenuOpen}
+        >
+          <div className={styles.burgerLines}></div>
+        </button>
       </div>
     </header>
   );

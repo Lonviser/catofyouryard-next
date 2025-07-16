@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
     // Применяем шрифт ко всему приложению
     <div className={montserrat.className}>
       <Header />
-      <Component {...pageProps} />
+      {/* <Component {...pageProps} /> */}
     </div>
   );
 }
