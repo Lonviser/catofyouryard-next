@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={montserrat.className}>
       <Header />
-      <Component {...pageProps} /> 
+      <Component {...pageProps} />
     </div>
   );
 }

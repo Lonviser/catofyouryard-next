@@ -1,37 +1,14 @@
-import { getPosts, WPPost } from '@/lib/api';
 import Main from '@/components/Main/Main';
+import HomeData from './HomeData';
+import { Suspense } from 'react';
+import Loading from './api/(posts)/loading';
 
-interface HomeProps {
-  posts: WPPost[];
-  error?: string;
-}
-
-export default async function Home() {
-  let posts: WPPost[] = [];
-  let error = '';
-
-  try {
-    posts = await getPosts();
-  } catch (err) {
-    error = err instanceof Error ? err.message : 'Неизвестная ошибка';
-  }
-
-  if (error) {
-    return <div>Ошибка: {error}</div>;
-  }
-
+export default function Home({ searchParams }: { searchParams: { page?: string } }) {
   return (
-    <>
-        <Main />
-        {/* <h2>Записи из WordPress</h2>
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <a href={`/posts/${post.slug}`}>{post.title.rendered}</a>
-              </li>
-            ))}
-          </ul> */}
-    </>
-
+    <Suspense fallback={<Loading />}>
+      <HomeData searchParams={searchParams}>
+        {({ posts, error, page }) => <Main posts={posts} error={error} page={page} />}
+      </HomeData>
+    </Suspense>
   );
 }

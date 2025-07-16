@@ -1,4 +1,3 @@
-'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Header.module.scss';
@@ -12,7 +11,7 @@ export default function Header() {
   };
 
   const handleBurgerClick = () => {
-    console.log('Burger clicked, isMenuOpen:', !isMenuOpen); // Для отладки
+    console.log('Burger clicked, isMenuOpen:', !isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -25,7 +24,7 @@ export default function Header() {
             alt="Логотип"
             width={66}
             height={66}
-            priority // Добавляем priority для критически важных изображений
+            priority
           />
           <div className={styles.header__logoTitle}>
             <Link href="/" onClick={handleLinkClick}>

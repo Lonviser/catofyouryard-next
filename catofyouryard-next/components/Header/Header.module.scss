@@ -126,6 +126,7 @@
     letter-spacing: 0;
     transition: 0.3 all;
     &:hover {
+      background: v.$white-color;
       color: v.$primary-color !important;
     }
   }
