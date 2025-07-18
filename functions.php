@@ -69,3 +69,8 @@ function register_pets_rest_fields() {
         },
     ]);
 }
+
+// wp-content/themes/your-theme/functions.php
+add_filter('preview_post_link', function ($link, $post) {
+  return 'http://localhost:3000/api/preview?slug=' . $post->post_name . '&nonce=' . wp_create_nonce('wp_rest');
+}, 10, 2);
