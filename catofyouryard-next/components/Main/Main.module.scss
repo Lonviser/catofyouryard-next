@@ -239,7 +239,7 @@
     }
     .support{
         &__title{
-            font-size: 2.37vw;
+            font-size: 2.27vw;
         }
         &__blocks{
             gap: 3.57vw;
@@ -251,6 +251,11 @@
             }
         }
     }
+}
+
+.cats{
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 

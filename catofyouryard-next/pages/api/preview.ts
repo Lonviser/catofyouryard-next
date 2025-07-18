@@ -1,5 +1,6 @@
 // pages/api/preview.ts
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getPageBySlug } from '../../lib/api';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug, nonce } = req.query;
@@ -8,7 +9,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ message: 'Недостаточно параметров' });
   }
 
-  // Аутентификация через WordPress (например, с помощью WPGraphQL JWT)
   try {
     const page = await getPageBySlug(slug as string);
     if (!page) {

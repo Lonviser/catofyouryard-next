@@ -1,14 +1,10 @@
 // pages/[slug].tsx
 import { GetStaticPaths, GetStaticProps } from 'next';
-import Image from 'next/image';
-import { getPageBySlug, getAllPageSlugs } from '../lib/api';
+import Head from 'next/head';
+import { getPageBySlug, getAllPageSlugs, WPPage } from '../lib/api';
 
 interface PageProps {
-  page: {
-    title: { rendered: string };
-    content: { rendered: string };
-    slug: string;
-  } | null;
+  page: WPPage | null;
   error?: string;
 }
 
@@ -22,13 +18,19 @@ export default function Page({ page, error }: PageProps) {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl mb-6">{page.title.rendered}</h1>
-      <div
-        className="prose"
-        dangerouslySetInnerHTML={{ __html: page.content.rendered }}
-      />
-    </div>
+    <>
+      <Head>
+        <title>{page.title.rendered}</title>
+        <meta name="description" content={page.excerpt?.rendered || 'Описание страницы'} />
+      </Head>
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl mb-6">{page.title.rendered}</h1>
+        <div
+          className="prose"
+          dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+        />
+      </div>
+    </>
   );
 }
 

@@ -22,6 +22,7 @@ export interface WPPost {
 export interface WPPet {
   id: number;
   title: { rendered: string };
+  slug: string;
   pet_info?: {
     photo: string;
     age: string;
@@ -57,6 +58,35 @@ export async function getPageBySlug(slug: string): Promise<WPPage | null> {
   }
 }
 
+export async function getAllPostSlugs(): Promise<string[]> {
+  try {
+    const res = await fetch('http://catsoftoyouryard.local/wp-json/wp/v2/posts', {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
+    const posts = await res.json();
+    return posts.map((post: WPPost) => post.slug);
+  } catch (error) {
+    console.error('Ошибка при получении slug’ов постов:', error);
+    return [];
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<WPPost | null> {
+  try {
+    const res = await fetch(
+      `http://catsoftoyouryard.local/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+      { next: { revalidate: 60 } }
+    );
+    if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
+    const posts = await res.json();
+    return posts.length > 0 ? posts[0] : null;
+  } catch (error) {
+    console.error(`Ошибка при получении поста ${slug}:`, error);
+    return null;
+  }
+}
+
 export async function getPosts(perPage: number = 6, page: number = 1): Promise<WPPost[]> {
   try {
     const res = await fetch(
@@ -72,13 +102,15 @@ export async function getPosts(perPage: number = 6, page: number = 1): Promise<W
   }
 }
 
-export async function getPets(): Promise<WPPet[]> {
+export async function getPets(perPage: number = 9, page: number = 1): Promise<WPPet[]> {
   try {
-    const res = await fetch('http://catsoftoyouryard.local/wp-json/wp/v2/pets?_embed', {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(
+      `http://catsoftoyouryard.local/wp-json/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
+      { next: { revalidate: 60 } }
+    );
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
     const pets = await res.json();
+    console.log('Получены котики:', pets);
     return Array.isArray(pets) ? pets : [];
   } catch (error) {
     console.error('Ошибка при загрузке котиков:', error);

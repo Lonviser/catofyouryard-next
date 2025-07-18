@@ -2,14 +2,17 @@ import styles from './Main.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { WPPost } from '@/lib/api';
+import { getPets, WPPet } from '@/lib/api';
 
 interface MainProps {
   posts: WPPost[];
+  pets?: WPPet[];
   error?: string;
-  page: number;
+  page?: number; // Делаем необязательным, если не используется
 }
 
-export default function Main({ posts, error, page }: MainProps) {
+
+export default function Main({ posts, error,pets, page }: MainProps) {
   if (error) {
     return (
       <div className="text-red-500 text-center">
@@ -98,6 +101,38 @@ export default function Main({ posts, error, page }: MainProps) {
                 width={460}
                 height={331}
               />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className={styles.cats}>
+        <div className={styles.section__header}>
+          <div className="container">
+            <div className={styles.section__header}>
+              <h2 className={styles.section__title}>Наши подопечные</h2>
+              <Link href="/cats" className={styles.section__link}>
+                Смотреть все котиков →
+              </Link>
+            </div>
+            <div className={styles.cats__container}>
+              {pets.map((pet) => (
+                <div key={pet.id} className={styles.cats__block}>
+                  {pet.pet_info?.photo && (
+                    <Image
+                      src={pet.pet_info.photo}
+                      alt={pet.title.rendered}
+                      width={363}
+                      height={220}
+                      className="w-full h-48 object-cover mb-2"
+                    />
+                  )}
+                  <div className={styles.cats__block_info}>
+                    <h3 className={styles.cats__block_title}>
+                      <Link href={`/pets/${pet.slug}`}>{pet.title.rendered}</Link>
+                    </h3>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
