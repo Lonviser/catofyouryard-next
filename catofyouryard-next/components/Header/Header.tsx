@@ -57,9 +57,8 @@ export default function Header() {
                     priority
                   />
                 </a>
-                <a className={styles.header__infoHelp} href="" onClick={handleLinkClick}>
-                  Помочь
-                </a>
+                <Link className={styles.header__infoHelp} href="/help" onClick={handleLinkClick}>
+                  Помочь</Link>
               </div>
             </div>
           </div>

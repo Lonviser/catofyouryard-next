@@ -1,6 +1,7 @@
 <?php
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
+add_theme_support('post-thumbnails');
 
 
 add_action('init', 'register_pets_post_type');

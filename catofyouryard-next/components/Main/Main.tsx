@@ -60,29 +60,49 @@ export default async function Main() { // Add async here
               Все новости
             </Link>
           </div>
-          <div className="news__blocks">
-            <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <ul className={styles.news__blocks}>
               {posts.map((post) => (
-                <li key={post.id} className="border rounded-lg p-4">
+                <li key={post.id} className={styles.news__block}>
                   {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
                     <Image
                       src={post._embedded['wp:featuredmedia'][0].source_url}
                       alt={post.title.rendered}
-                      width={300}
-                      height={200}
+                      width={363}
+                      height={220}
                       className="w-full h-48 object-cover mb-2"
                     />
                   )}
-                  <h3 className="text-xl font-bold">
-                    <a href={`/posts/${post.slug}`}>{post.title.rendered}</a>
-                  </h3>
-                  <div
-                    className="text-gray-600"
-                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                  />
+                  <div className={styles.news__block_info}>
+                      <h3 className={styles.news__block_title}>
+                        <a href={`/posts/${post.slug}`}>{post.title.rendered}</a>
+                      </h3>
+                      <div
+                        className="text-gray-600"
+                        dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                      />
+                  </div>
+                 
                 </li>
               ))}
             </ul>
+        </div>
+      </section>
+
+      <section className={styles.support}>
+        <div className="container">
+          <div className={styles.support__container}>
+            <div className={styles.support__info}>
+              <h2 className={styles.support__title}>Поддержите нас, чтобы мы смогли спасти больше жизней</h2>
+              <Link className={styles.support__link} href={'/help'}>Сделать пожертвование</Link>
+            </div>
+            <div className={styles.support__img}>
+              <Image
+                src="/cat_about.jpeg"
+                alt="Кошки твоего двора"
+                width={460}
+                height={331}
+              />
+            </div>
           </div>
         </div>
       </section>
