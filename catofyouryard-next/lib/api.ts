@@ -117,3 +117,18 @@ export async function getPets(perPage: number = 9, page: number = 1): Promise<WP
     return [];
   }
 }
+
+export async function getPetBySlug(slug: string): Promise<WPPet | null> {
+  try {
+    const res = await fetch(
+      `http://catsoftoyouryard.local/wp-json/wp/v2/pets?slug=${slug}&_embed`,
+      { next: { revalidate: 60 } }
+    );
+    if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
+    const pets = await res.json();
+    return pets.length > 0 ? pets[0] : null;
+  } catch (error) {
+    console.error(`Ошибка при получении питомца ${slug}:`, error);
+    return null;
+  }
+}

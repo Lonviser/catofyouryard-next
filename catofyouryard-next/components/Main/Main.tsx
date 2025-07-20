@@ -121,8 +121,8 @@ export default function Main({ posts, error,pets, page }: MainProps) {
                     <Image
                       src={pet.pet_info.photo}
                       alt={pet.title.rendered}
-                      width={363}
-                      height={220}
+                      width={260}
+                      height={260}
                       className="w-full h-48 object-cover mb-2"
                     />
                   )}
@@ -130,6 +130,7 @@ export default function Main({ posts, error,pets, page }: MainProps) {
                     <h3 className={styles.cats__block_title}>
                       <Link href={`/pets/${pet.slug}`}>{pet.title.rendered}</Link>
                     </h3>
+                    <Link className={styles.cats__block_link} href={`/pets/${pet.slug}`}>Подробнее</Link>
                   </div>
                 </div>
               ))}
