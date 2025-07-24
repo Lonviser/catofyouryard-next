@@ -74,3 +74,90 @@ function register_pets_rest_fields() {
 add_filter('preview_post_link', function ($link, $post) {
   return 'http://localhost:3000/api/preview?slug=' . $post->post_name . '&nonce=' . wp_create_nonce('wp_rest');
 }, 10, 2);
+
+// ВРЕМЕННЫЙ КОД ДЛЯ СОЗДАНИЯ ТЕСТОВЫХ КОТОВ
+function create_test_cats() {
+    if (!current_user_can('administrator')) return;
+    
+    if (isset($_GET['create_test_cats'])) {
+        $cat_names = [
+            'Барсик', 'Мурзик', 'Рыжик', 'Снежок', 'Пушок',
+            'Том', 'Гарфилд', 'Чешир', 'Матроскин', 'Леопольд',
+            'Мурка', 'Васька', 'Пират', 'Зевс', 'Аполлон'
+        ];
+        
+        foreach ($cat_names as $index => $name) {
+            $post_data = [
+                'post_title'    => $name,
+                'post_content'  => 'Это тестовый котик номер ' . ($index + 1) . '. Очень добрый и игривый!',
+                'post_status'   => 'publish',
+                'post_type'     => 'pets',
+                'meta_input'    => [
+                    'pet_age' => rand(1, 10),
+                    'pet_gender' => (rand(0, 1) ? 'male' : 'female'),
+                    'pet_adopted' => (rand(0, 1) ? 'yes' : ''),
+                    'pet_story' => 'История этого котика очень интересная. Он был найден на улице и теперь ищет дом.'
+                ]
+            ];
+            
+            $post_id = wp_insert_post($post_data);
+            
+            // Устанавливаем тестовое изображение (если есть)
+            // Или просто оставляем без фото
+        }
+        
+        echo '<div class="notice notice-success"><p>Создано 15 тестовых котов!</p></div>';
+    }
+}
+add_action('admin_notices', 'create_test_cats');
+
+// Добавляем ссылку в админку для удобства
+function add_test_cats_menu() {
+    add_submenu_page(
+        'edit.php?post_type=pets',
+        'Создать тестовых котов',
+        'Создать тестовых котов',
+        'administrator',
+        'create-test-cats',
+        'test_cats_page_content'
+    );
+}
+add_action('admin_menu', 'add_test_cats_menu');
+
+function test_cats_page_content() {
+    if (isset($_GET['create'])) {
+        // Создаем котов
+        create_sample_cats();
+        echo '<div class="notice notice-success"><p>Тестовые коты созданы!</p></div>';
+    }
+    
+    echo '<div class="wrap">';
+    echo '<h1>Тестовые коты</h1>';
+    echo '<a href="?post_type=pets&page=create-test-cats&create=1" class="button button-primary">Создать 15 тестовых котов</a>';
+    echo '</div>';
+}
+
+function create_sample_cats() {
+    $cat_names = [
+        'Барсик', 'Мурзик', 'Рыжик', 'Снежок', 'Пушок',
+        'Том', 'Гарфилд', 'Чешир', 'Матроскин', 'Леопольд',
+        'Мурка', 'Васька', 'Пират', 'Зевс', 'Аполлон'
+    ];
+    
+    foreach ($cat_names as $index => $name) {
+        $post_data = [
+            'post_title'    => $name,
+            'post_content'  => 'Это тестовый котик номер ' . ($index + 1) . '. Очень добрый и игривый!',
+            'post_status'   => 'publish',
+            'post_type'     => 'pets',
+            'meta_input'    => [
+                'pet_age' => rand(1, 10),
+                'pet_gender' => (rand(0, 1) ? 'male' : 'female'),
+                'pet_adopted' => (rand(0, 1) ? 'yes' : ''),
+                'pet_story' => 'История этого котика очень интересная. Он был найден на улице и теперь ищет дом.'
+            ]
+        ];
+        
+        $post_id = wp_insert_post($post_data);
+    }
+}

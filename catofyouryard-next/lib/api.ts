@@ -102,16 +102,38 @@ export async function getPosts(perPage: number = 6, page: number = 1): Promise<W
   }
 }
 
-export async function getPets(perPage: number = 9, page: number = 1): Promise<WPPet[]> {
+export async function getPets(): Promise<WPPet[]> {
   try {
-    const res = await fetch(
-      `http://catsoftoyouryard.local/wp-json/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
-      { next: { revalidate: 60 } }
-    );
-    if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
-    const pets = await res.json();
-    console.log('Получены котики:', pets);
-    return Array.isArray(pets) ? pets : [];
+    let allPets: WPPet[] = [];
+    let page = 1;
+    const perPage = 100;
+    
+    while (true) {
+      const res = await fetch(
+        `http://catsoftoyouryard.local/wp-json/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
+        { next: { revalidate: 60 } }
+      );
+      
+      if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
+      
+      const pets = await res.json();
+      
+      if (!Array.isArray(pets) || pets.length === 0) {
+        break;
+      }
+      
+      allPets = allPets.concat(pets);
+      
+      // Если получили меньше, чем запрашивали - значит это последняя страница
+      if (pets.length < perPage) {
+        break;
+      }
+      
+      page++;
+    }
+    
+    console.log('Получены все котики:', allPets);
+    return allPets;
   } catch (error) {
     console.error('Ошибка при загрузке котиков:', error);
     return [];

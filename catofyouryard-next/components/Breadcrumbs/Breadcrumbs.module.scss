@@ -1,0 +1,20 @@
+.breadcrumbs{
+    padding-top: 10px;
+    margin-bottom: 20px;
+    ol{
+        display: flex;
+        align-items: flex-end;
+              list-style-type: none;
+        li{
+              list-style-type: none;
+        }
+    }
+}
+
+
+.separator{
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 20px;
+    color: rgb(235, 206, 162);
+}

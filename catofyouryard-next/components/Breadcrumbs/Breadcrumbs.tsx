@@ -1,10 +1,9 @@
-// components/Breadcrumbs.tsx
 'use client';
 
+import styles from './Breadcrumbs.module.scss';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
-import styles from './Breadcrumbs.module.css';
 
 // Тип для элемента хлебной крошки
 interface BreadcrumbItem {
@@ -27,7 +26,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ customBreadcrumbs }) => {
       return customBreadcrumbs;
     }
 
-    // Разбиваем путь на сегменты
+    // Разбиваем путь на сегменты, используем '/' для URL
     const pathSegments = pathname.split('/').filter(segment => segment);
 
     // Создаем массив крошек
@@ -64,7 +63,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ customBreadcrumbs }) => {
                   <Link href={crumb.path} className={styles.link}>
                     {crumb.label}
                   </Link>
-                  <span className={styles.separator}>/</span>
+                  <span className={styles.separator}>•</span> {/* Заменяем / на • */}
                 </>
               )}
             </li>

@@ -80,7 +80,6 @@ export default function Main({ posts, error,pets, page }: MainProps) {
               </li>
             ))}
           </ul>
-          {/* Добавьте пагинацию, если нужно */}
         </div>
       </section>
       <section className={styles.support}>

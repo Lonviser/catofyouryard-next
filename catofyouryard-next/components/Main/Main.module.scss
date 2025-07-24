@@ -156,6 +156,66 @@
 
 }
 
+.cats{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    &__container{
+        padding-top: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    &__block{
+        box-sizing: border-box;
+        border: 1px solid rgb(199, 199, 199);
+        border-radius: 20px;
+        width: 260px;
+        background: v.$white-color;
+        img{
+            border-radius: 20px 20px 0px 0px;
+        }
+        &_info{
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        &_title{
+            text-align: center;
+        }
+        &_link{
+                box-sizing: border-box;
+                border: 1px solid rgb(199, 199, 199);
+                border-radius: 20px;
+
+                padding-top: 10px;
+                padding-bottom: 10px;
+                margin-top: 30px;
+
+                color: v.$primary-color;
+                font-size: 14px;
+                font-weight: 600;
+                line-height:122%;
+                text-align: center;
+                text-transform: uppercase;
+
+                transition: all 0.3s ease;
+                
+                &:hover{
+                    background-color: v.$secondary-color;
+                    color: v.$white-color;
+                }
+        }
+    }
+            &__description{
+            color: v.$text-color;
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 150%;
+            text-align: center;
+        }
+}
 
 .support{
     padding-top: 50px;
@@ -197,6 +257,8 @@
         line-height: 122%;
     }
 }
+
+
 
 @media(min-width:769px) and (max-width: 1600px) {
     .hero{
@@ -251,61 +313,14 @@
             }
         }
     }
-}
 
-.cats{
-    padding-top: 50px;
-    padding-bottom: 50px;
-    &__container{
-        padding-top: 40px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    &__block{
-        box-sizing: border-box;
-        border: 1px solid rgb(199, 199, 199);
-        border-radius: 20px;
-        width: 260px;
-        background: v.$white-color;
-        img{
-            border-radius: 20px 20px 0px 0px;
+    .cats{
+        &__description{
+            font-size: 1.12vw;
         }
-        &_info{
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-        }
-        &_title{
-            text-align: center;
-        }
-        &_link{
-                box-sizing: border-box;
-                border: 1px solid rgb(199, 199, 199);
-                border-radius: 20px;
-
-                padding-top: 10px;
-                padding-bottom: 10px;
-                margin-top: 30px;
-
-                color: v.$primary-color;
-                font-size: 14px;
-                font-weight: 600;
-                line-height:122%;
-                text-align: center;
-                text-transform: uppercase;
-
-                transition: all 0.3s ease;
-                
-                &:hover{
-                    background-color: v.$secondary-color;
-                    color: v.$white-color;
-                }
-        }
-
     }
 }
+
 
 
 
