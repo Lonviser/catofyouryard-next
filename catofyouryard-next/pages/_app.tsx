@@ -1,6 +1,7 @@
 import '../styles/globals.scss';
 import { Montserrat } from 'next/font/google';
 import Header from '../components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import type { AppProps } from 'next/app';
 
 const montserrat = Montserrat({
@@ -11,9 +12,12 @@ const montserrat = Montserrat({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={montserrat.className}>
+    <div className={`${montserrat.className} app-wrapper`}>
       <Header />
-      <Component {...pageProps} />
+      <main className="main-content">
+        <Component {...pageProps} />
+      </main>
+      <Footer />
     </div>
   );
 }

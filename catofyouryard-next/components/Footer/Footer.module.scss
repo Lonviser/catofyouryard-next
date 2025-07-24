@@ -1,0 +1,131 @@
+@use "../../styles/variables" as v;  // ✅ Правильно// Header Base Styles
+
+.footer{
+    margin-top: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background: rgb(158, 151, 94);
+    &__logo{
+        display: flex;
+        align-items: center;
+        &Title{
+            color: v.$white-color;
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 29px;
+
+        }
+    }
+    &__title{
+        margin-bottom: 14px;
+        color: v.$white-color;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 29px;   
+    }
+    &__block{
+        display: flex;
+        justify-content: space-between;
+    }
+    &__list{
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        a{
+            &:hover {
+            color: v.$primary-color;
+            transform: translateX(5px);     
+            &::after {
+            width: 100%;
+                }
+            }
+        }
+        &Item{
+            list-style-type: none;
+            color: v.$white-color;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 25px;
+        }
+    }
+    &__donateText{
+        color: v.$white-color;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+    }
+    &__copy{
+        color: v.$white-color;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        
+        a{
+            transition: 0.3s all;
+            font-weight: 600;
+            &:hover{
+                color: v.$primary-color;
+            }
+        }
+    }
+}
+
+@media(min-width:769px) and (max-width: 1400px) {
+    .footer{
+        &__logo{
+            img{
+                width: 10.71vw;
+                height: 10.71vw;
+            }
+        }
+        &__logoTitle{
+            font-size: 1.71vw;
+        }
+        &__title{
+            font-size: 1.71vw;
+        }
+        &__listItem{
+            font-size: 1.43vw;
+        }
+        &__donateText{
+            font-size: 1.43vw;
+        }
+        &__copy{
+            font-size: 1.43vw;
+        }
+    }
+}
+
+@media(max-width:769px){
+    .footer{
+        &__block{
+            flex-direction: column;
+        }
+        &__logo{
+            align-items: center;
+            justify-content: center;
+        }
+        &__copy{
+
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        &__contacts{
+            margin-top: 20px;
+        }
+        &__donate{
+            margin-top: 20px;
+        }
+        &__menu{
+            margin-top: 20px;
+        }
+        &__developer{
+            margin-top: 20px;
+        }
+    }
+}

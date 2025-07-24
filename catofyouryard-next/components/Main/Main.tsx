@@ -8,11 +8,10 @@ interface MainProps {
   posts: WPPost[];
   pets?: WPPet[];
   error?: string;
-  page?: number; // Делаем необязательным, если не используется
+  page?: number;
 }
 
-
-export default function Main({ posts, error,pets, page }: MainProps) {
+export default function Main({ posts, error, pets = [], page }: MainProps) {
   if (error) {
     return (
       <div className="text-red-500 text-center">
@@ -20,6 +19,9 @@ export default function Main({ posts, error,pets, page }: MainProps) {
       </div>
     );
   }
+
+  // Берем только первые 4 котика для отображения на главной
+  const featuredPets = pets.slice(0, 4);
 
   return (
     <main className={styles.main}>
@@ -114,7 +116,7 @@ export default function Main({ posts, error,pets, page }: MainProps) {
               </Link>
             </div>
             <div className={styles.cats__container}>
-              {pets.map((pet) => (
+              {featuredPets.map((pet) => (
                 <div key={pet.id} className={styles.cats__block}>
                   {pet.pet_info?.photo && (
                     <Image
