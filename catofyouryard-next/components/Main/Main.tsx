@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { WPPost } from '@/lib/api';
 import { getPets, WPPet } from '@/lib/api';
+import SliderComponent from '../Slider/SliderComponent';
 
 interface MainProps {
   posts: WPPost[];
@@ -112,7 +113,7 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
             <div className={styles.section__header}>
               <h2 className={styles.section__title}>Наши подопечные</h2>
               <Link href="/cats" className={styles.section__link}>
-                Смотреть все котиков →
+                Смотреть всех
               </Link>
             </div>
             <div className={styles.cats__container}>
@@ -138,6 +139,19 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className={styles.happycats}>
+
+        <div className="container">
+         <h2 className={styles.happycats__title}>Радуемся за наших котиков</h2>
+         <p className={styles.happycats__text}>
+            Здесь вы можете увидеть главный итог нашей общей поддержки котиков. Эти фотографии подтверждают: у каждого маленького хвостика есть шанс на счастливое будущее! Когда позади остаются суровая уличная жизнь с ее опасностями, серьезные травмы и болезни, сложные операции и долгий путь восстановления — приходит долгожданное счастье. Но для этого нам с вами нужно приложить усилия! Прокрутите фото котиков, которые мы разместили выше: они до сих пор ждут своего хозяина! Может быть, этим человеком станете вы?
+         </p>
+          <SliderComponent></SliderComponent>
+
+        </div>
+
       </section>
     </main>
   );

@@ -1,3 +1,4 @@
+// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,6 +10,14 @@ const nextConfig = {
         pathname: '/wp-content/uploads/**',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/wp-json/:path*',
+        destination: 'http://catsoftoyouryard.local/wp-json/:path*',
+      },
+    ];
   },
 };
 

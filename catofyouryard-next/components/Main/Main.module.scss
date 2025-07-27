@@ -108,7 +108,9 @@
         line-height: 122%;
     }
     &__link{
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: v.$secondary-color;
         font-size: 17px;
         font-weight: 500;
@@ -258,6 +260,29 @@
     }
 }
 
+.happycats{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: rgb(250, 245, 237);
+    &__title{
+        color: v.$text-color;
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 158.33%;
+        text-align: center;
+            }
+    &__text{
+        color: v.$text-color;
+        font-size: 24px;
+        font-weight: 300;
+        line-height: 158.33%;
+        letter-spacing: 0%;
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+}
+
 
 
 @media(min-width:769px) and (max-width: 1600px) {
@@ -308,8 +333,8 @@
         }
         &__img{
             img{
-            width: 32.86vw;
-            height: 23.64vw;
+                width: 32.86vw;
+                height: 23.64vw;
             }
         }
     }
@@ -365,6 +390,14 @@
             justify-content: center;
         }
     }
+    .support{
+        &__img{
+            img{
+                width:30vw;
+                height: auto;
+            }
+        }
+    }
 
 }
 
@@ -376,8 +409,52 @@
                 height: auto;
             }
         }
+        &__info{
+            align-items: center;
+        }
+        &__link{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        &__title{
+            font-size: 28px;
+            text-align: center;
+        }
         &__container{
             flex-direction: column;
+        }
+    }
+
+    .section{
+        &__title{
+            font-size: 28px;
+        }
+        &__link{
+            padding: 10px;
+        }
+    }
+
+    .about{
+        &__title{
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        &__link{
+            text-align: center;
+        }
+    }
+
+    .cats{
+        &__block{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            &_link{
+                max-width: 200px;
+                padding-left: 30px;
+                padding-right: 30px;
+            }
         }
     }
 

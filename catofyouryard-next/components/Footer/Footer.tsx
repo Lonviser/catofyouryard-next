@@ -33,9 +33,14 @@ function Footer(props) {
                         <h3 className={styles.footer__title}>
                             Пожертвования :
                         </h3>
-                        <p className={styles.footer__donateText}>
-                            Банк: "Т-банк" <br /> Номер карты: 2200 7017 2339 9488 <br />Привязка к номеру: 8930 302 51 21 <br />Получатель: Барынина Ольга Александровна
-                        </p>
+                        <div className={styles.footer__donateText}>
+                            <ul className={styles.footer__list}>
+                                <li className={styles.footer__listItem}>Банк: Т-банк</li>
+                                <li className={styles.footer__listItem}>Номер карты: 2200 7017 2339 9488</li>
+                                <li className={styles.footer__listItem}>Привязка к номеру: 8930 302 51 21</li>
+                                <li className={styles.footer__listItem}>Получатель: Барынина Ольга Александровна</li>
+                            </ul>
+                        </div>
                     </div>
                     <div className={styles.footer__menu}>
                          <h3 className={styles.footer__title}>

@@ -1,9 +1,10 @@
 <?php
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
+
 add_theme_support('post-thumbnails');
 
-
+// Регистрация типа записи "Котики"
 add_action('init', 'register_pets_post_type');
 function register_pets_post_type() {
     $labels = [
@@ -24,10 +25,10 @@ function register_pets_post_type() {
         'public' => true,
         'has_archive' => true,
         'menu_position' => 5,
-        'menu_icon' => 'dashicons-pets', // Иконка котика
+        'menu_icon' => 'dashicons-pets',
         'supports' => ['title', 'editor', 'thumbnail', 'custom-fields'],
         'show_in_rest' => true,
-        'show_in_menu' => true, // Важно!
+        'show_in_menu' => true,
         'capability_type' => 'post',
         'map_meta_cap' => true,
     ];
@@ -35,14 +36,14 @@ function register_pets_post_type() {
     register_post_type('pets', $args);
 }
 
-// Добавляем кастомные поля для котиков
+// Кастомные поля для "Котиков"
 add_action('carbon_fields_register_fields', 'add_pets_fields');
 function add_pets_fields() {
     Container::make('post_meta', 'Дополнительные поля')
         ->where('post_type', '=', 'pets')
         ->add_fields([
             Field::make('image', 'pet_photo', 'Фото котика')
-                ->set_value_type('url'), // Сохраняем URL изображения
+                ->set_value_type('url'),
             Field::make('text', 'pet_age', 'Возраст (лет)'),
             Field::make('rich_text', 'pet_story', 'История котика'),
             Field::make('select', 'pet_gender', 'Пол')
@@ -54,7 +55,7 @@ function add_pets_fields() {
         ]);
 }
 
-// Добавляем кастомные поля в REST API
+// REST API для "Котиков"
 add_action('rest_api_init', 'register_pets_rest_fields');
 function register_pets_rest_fields() {
     register_rest_field('pets', 'pet_info', [
@@ -65,99 +66,93 @@ function register_pets_rest_fields() {
                 'story' => carbon_get_post_meta($post['id'], 'pet_story'),
                 'gender' => carbon_get_post_meta($post['id'], 'pet_gender'),
                 'adopted' => carbon_get_post_meta($post['id'], 'pet_adopted'),
+                'title' => get_the_title($post['id']),
             ];
         },
     ]);
 }
 
-// wp-content/themes/your-theme/functions.php
+// Новая страница настроек для слайдера
+add_action('carbon_fields_register_fields', 'add_slider_settings');
+function add_slider_settings() {
+    Container::make('theme_options', 'Настройки слайдера')
+        ->set_page_menu_title('Слайдер')
+        ->set_page_parent('options-general.php')
+        ->set_icon('dashicons-slides')
+        ->add_fields([
+            Field::make('complex', 'slider_slides', 'Слайды')
+                ->set_layout('tabbed-horizontal')
+                ->add_fields([
+                    Field::make('text', 'title', 'Заголовок слайда')
+                        ->set_required(true),
+                    Field::make('image', 'image', 'Изображение слайда')
+                        ->set_value_type('url')
+                        ->set_required(true),
+                    Field::make('text', 'alt', 'Описание для alt')
+                        ->set_default_value('Изображение слайда'),
+                ])
+                ->set_header_template('<%- title %>')
+                ->set_collapsed(true),
+        ]);
+}
+
+// Новый REST API endpoint для слайдера
+add_action('rest_api_init', function () {
+    register_rest_route('custom/v1', '/slider', [
+        'methods' => 'GET',
+        'callback' => function () {
+            $slides = carbon_get_theme_option('slider_slides');
+            
+            // Если слайды не найдены, возвращаем пустой массив
+            if (!$slides || !is_array($slides)) {
+                return rest_ensure_response([]);
+            }
+
+            $formatted_slides = [];
+
+            foreach ($slides as $slide) {
+                // Проверяем наличие изображения
+                if (!empty($slide['image'])) {
+                    $formatted_slides[] = [
+                        'title' => !empty($slide['title']) ? sanitize_text_field($slide['title']) : '',
+                        'image' => esc_url_raw($slide['image']),
+                        'alt' => !empty($slide['alt']) ? sanitize_text_field($slide['alt']) : 'Изображение слайда',
+                    ];
+                }
+            }
+
+            return rest_ensure_response($formatted_slides);
+        },
+        'permission_callback' => '__return_true',
+    ]);
+});
+
+// Разрешаем CORS для разработки
+function add_cors_headers() {
+    // Разрешаем запросы только в режиме разработки
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        header('Access-Control-Allow-Origin: http://localhost:3000');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
+        header('Access-Control-Allow-Credentials: true');
+    }
+}
+add_action('init', 'add_cors_headers');
+
+// Обрабатываем preflight OPTIONS запросы
+add_action('rest_api_init', function() {
+    register_rest_route('custom/v1', '/slider', array(
+        'methods' => 'OPTIONS',
+        'callback' => function() {
+            return new WP_REST_Response('', 200);
+        },
+        'permission_callback' => '__return_true',
+    ));
+});
+
+// Preview link filter
 add_filter('preview_post_link', function ($link, $post) {
-  return 'http://localhost:3000/api/preview?slug=' . $post->post_name . '&nonce=' . wp_create_nonce('wp_rest');
+    return 'http://localhost:3000/api/preview?slug=' . $post->post_name . '&nonce=' . wp_create_nonce('wp_rest');
 }, 10, 2);
 
-// ВРЕМЕННЫЙ КОД ДЛЯ СОЗДАНИЯ ТЕСТОВЫХ КОТОВ
-function create_test_cats() {
-    if (!current_user_can('administrator')) return;
-    
-    if (isset($_GET['create_test_cats'])) {
-        $cat_names = [
-            'Барсик', 'Мурзик', 'Рыжик', 'Снежок', 'Пушок',
-            'Том', 'Гарфилд', 'Чешир', 'Матроскин', 'Леопольд',
-            'Мурка', 'Васька', 'Пират', 'Зевс', 'Аполлон'
-        ];
-        
-        foreach ($cat_names as $index => $name) {
-            $post_data = [
-                'post_title'    => $name,
-                'post_content'  => 'Это тестовый котик номер ' . ($index + 1) . '. Очень добрый и игривый!',
-                'post_status'   => 'publish',
-                'post_type'     => 'pets',
-                'meta_input'    => [
-                    'pet_age' => rand(1, 10),
-                    'pet_gender' => (rand(0, 1) ? 'male' : 'female'),
-                    'pet_adopted' => (rand(0, 1) ? 'yes' : ''),
-                    'pet_story' => 'История этого котика очень интересная. Он был найден на улице и теперь ищет дом.'
-                ]
-            ];
-            
-            $post_id = wp_insert_post($post_data);
-            
-            // Устанавливаем тестовое изображение (если есть)
-            // Или просто оставляем без фото
-        }
-        
-        echo '<div class="notice notice-success"><p>Создано 15 тестовых котов!</p></div>';
-    }
-}
-add_action('admin_notices', 'create_test_cats');
-
-// Добавляем ссылку в админку для удобства
-function add_test_cats_menu() {
-    add_submenu_page(
-        'edit.php?post_type=pets',
-        'Создать тестовых котов',
-        'Создать тестовых котов',
-        'administrator',
-        'create-test-cats',
-        'test_cats_page_content'
-    );
-}
-add_action('admin_menu', 'add_test_cats_menu');
-
-function test_cats_page_content() {
-    if (isset($_GET['create'])) {
-        // Создаем котов
-        create_sample_cats();
-        echo '<div class="notice notice-success"><p>Тестовые коты созданы!</p></div>';
-    }
-    
-    echo '<div class="wrap">';
-    echo '<h1>Тестовые коты</h1>';
-    echo '<a href="?post_type=pets&page=create-test-cats&create=1" class="button button-primary">Создать 15 тестовых котов</a>';
-    echo '</div>';
-}
-
-function create_sample_cats() {
-    $cat_names = [
-        'Барсик', 'Мурзик', 'Рыжик', 'Снежок', 'Пушок',
-        'Том', 'Гарфилд', 'Чешир', 'Матроскин', 'Леопольд',
-        'Мурка', 'Васька', 'Пират', 'Зевс', 'Аполлон'
-    ];
-    
-    foreach ($cat_names as $index => $name) {
-        $post_data = [
-            'post_title'    => $name,
-            'post_content'  => 'Это тестовый котик номер ' . ($index + 1) . '. Очень добрый и игривый!',
-            'post_status'   => 'publish',
-            'post_type'     => 'pets',
-            'meta_input'    => [
-                'pet_age' => rand(1, 10),
-                'pet_gender' => (rand(0, 1) ? 'male' : 'female'),
-                'pet_adopted' => (rand(0, 1) ? 'yes' : ''),
-                'pet_story' => 'История этого котика очень интересная. Он был найден на улице и теперь ищет дом.'
-            ]
-        ];
-        
-        $post_id = wp_insert_post($post_data);
-    }
-}
+?>

@@ -48,7 +48,9 @@ a {
   text-align: center;
 }
 
-
+.swiper-slide-next, .swiper-slide-prev{
+  opacity: 0.5 !important;
+}
 
 .container{
     max-width: v.$container-width;

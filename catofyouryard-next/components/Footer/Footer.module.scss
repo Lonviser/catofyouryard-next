@@ -1,7 +1,6 @@
 @use "../../styles/variables" as v;  // ✅ Правильно// Header Base Styles
 
 .footer{
-    margin-top: 50px;
     padding-top: 50px;
     padding-bottom: 50px;
     background: rgb(158, 151, 94);
@@ -19,7 +18,7 @@
     &__title{
         margin-bottom: 14px;
         color: v.$white-color;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 600;
         line-height: 29px;   
     }
@@ -31,7 +30,7 @@
         list-style-type: none;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 7px;
         a{
             &:hover {
             color: v.$primary-color;
@@ -44,20 +43,20 @@
         &Item{
             list-style-type: none;
             color: v.$white-color;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 500;
-            line-height: 25px;
+            line-height: 139%;
         }
     }
     &__donateText{
         color: v.$white-color;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
-        line-height: 30px;
+        line-height: 155%;
     }
     &__copy{
         color: v.$white-color;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
         line-height: 30px;
         margin-top: 25px;
@@ -76,6 +75,8 @@
 
 @media(min-width:769px) and (max-width: 1400px) {
     .footer{
+        padding-top: 3.57vw;
+        padding-bottom: 3.57vw;
         &__logo{
             img{
                 width: 10.71vw;
@@ -83,19 +84,24 @@
             }
         }
         &__logoTitle{
-            font-size: 1.71vw;
+            font-size: 1.43vw;
+        }
+        &__list{
+            gap: 0.5vw;
         }
         &__title{
-            font-size: 1.71vw;
+            margin-top: 1vw;
+            font-size: 1.43vw;
         }
         &__listItem{
-            font-size: 1.43vw;
+            font-size: 1.14vw;
         }
         &__donateText{
-            font-size: 1.43vw;
+            font-size: 1.14vw;
+            
         }
         &__copy{
-            font-size: 1.43vw;
+            font-size: 1.14vw;
         }
     }
 }
