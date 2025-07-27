@@ -1,46 +1,57 @@
-@use "../../styles/variables" as v;  // ✅ Правильно// Header Base Styles
+@use "../../styles/variables" as v;
 
-.footer{
+.footer {
     padding-top: 50px;
     padding-bottom: 50px;
     background: rgb(158, 151, 94);
-    &__logo{
+    
+    // Добавляем margin-top для всех страниц, кроме главной
+    &.withMargin {
+        margin-top: 50px;
+    }
+    
+    &__logo {
         display: flex;
         align-items: center;
-        &Title{
+        
+        &Title {
             color: v.$white-color;
             font-size: 24px;
             font-weight: 800;
             line-height: 29px;
-
         }
     }
-    &__title{
+    
+    &__title {
         margin-bottom: 14px;
         color: v.$white-color;
         font-size: 20px;
         font-weight: 600;
         line-height: 29px;   
     }
-    &__block{
+    
+    &__block {
         display: flex;
         justify-content: space-between;
     }
-    &__list{
+    
+    &__list {
         list-style-type: none;
         display: flex;
         flex-direction: column;
         gap: 7px;
-        a{
+        
+        a {
             &:hover {
-            color: v.$primary-color;
-            transform: translateX(5px);     
-            &::after {
-            width: 100%;
+                color: v.$primary-color;
+                transform: translateX(5px);     
+                &::after {
+                    width: 100%;
                 }
             }
         }
-        &Item{
+        
+        &Item {
             list-style-type: none;
             color: v.$white-color;
             font-size: 18px;
@@ -48,13 +59,15 @@
             line-height: 139%;
         }
     }
-    &__donateText{
+    
+    &__donateText {
         color: v.$white-color;
         font-size: 18px;
         font-weight: 500;
         line-height: 155%;
     }
-    &__copy{
+    
+    &__copy {
         color: v.$white-color;
         font-size: 18px;
         font-weight: 500;
@@ -63,10 +76,10 @@
         display: flex;
         justify-content: space-between;
         
-        a{
+        a {
             transition: 0.3s all;
             font-weight: 600;
-            &:hover{
+            &:hover {
                 color: v.$primary-color;
             }
         }
@@ -74,63 +87,82 @@
 }
 
 @media(min-width:769px) and (max-width: 1400px) {
-    .footer{
+    .footer {
         padding-top: 3.57vw;
         padding-bottom: 3.57vw;
-        &__logo{
-            img{
+        
+        &.withMargin {
+            margin-top: 3.57vw;
+        }
+        
+        &__logo {
+            img {
                 width: 10.71vw;
                 height: 10.71vw;
             }
         }
-        &__logoTitle{
+        
+        &__logoTitle {
             font-size: 1.43vw;
         }
-        &__list{
+        
+        &__list {
             gap: 0.5vw;
         }
-        &__title{
+        
+        &__title {
             margin-top: 1vw;
             font-size: 1.43vw;
         }
-        &__listItem{
+        
+        &__listItem {
             font-size: 1.14vw;
         }
-        &__donateText{
+        
+        &__donateText {
             font-size: 1.14vw;
-            
         }
-        &__copy{
+        
+        &__copy {
             font-size: 1.14vw;
         }
     }
 }
 
-@media(max-width:769px){
-    .footer{
-        &__block{
+@media(max-width:769px) {
+    .footer {
+        &.withMargin {
+            margin-top: 30px;
+        }
+        
+        &__block {
             flex-direction: column;
         }
-        &__logo{
+        
+        &__logo {
             align-items: center;
             justify-content: center;
         }
-        &__copy{
-
+        
+        &__copy {
             text-align: center;
             flex-direction: column;
             align-items: center;
         }
-        &__contacts{
+        
+        &__contacts {
             margin-top: 20px;
         }
-        &__donate{
+        
+        &__donate {
             margin-top: 20px;
         }
-        &__menu{
+        
+        &__menu {
             margin-top: 20px;
         }
-        &__developer{
+        
+        &__developer {
             margin-top: 20px;
         }
     }

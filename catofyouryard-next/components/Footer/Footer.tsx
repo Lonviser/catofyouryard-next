@@ -1,11 +1,15 @@
 import React from 'react';
 import styles from './Footer.module.scss';
 import Image from 'next/image';
-
+import { useRouter } from 'next/router';
 
 function Footer(props) {
+    const router = useRouter();
+    // Проверяем, является ли текущая страница главной
+    const isHomePage = router.pathname === '/';
+
     return (
-        <footer className={styles.footer}>
+        <footer className={`${styles.footer} ${!isHomePage ? styles.withMargin : ''}`}>
             <div className="container">
                 <div className={styles.footer__block}>
                     <div className={styles.footer__logo}>
@@ -54,10 +58,10 @@ function Footer(props) {
                                 <a className={styles.footer__listItem} href="/pets">Котики</a>
                             </li>
                             <li>
-                                <a className={styles.footer__listItem} href="/news">Новости</a>
+                                <a className={styles.footer__listItem} href="/posts">Новости</a>
                             </li>
                             <li>
-                                <a className={styles.footer__listItem} href="/news">Новости</a>
+                                <a className={styles.footer__listItem} href="/contacts">Контакты</a>
                             </li>
                         </ul>            
                     </div>
@@ -70,7 +74,6 @@ function Footer(props) {
                 </div>
             </div>
             <div className={styles.footer__under}>
-
             </div>
         </footer>
     );

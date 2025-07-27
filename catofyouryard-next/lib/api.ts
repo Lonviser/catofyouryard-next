@@ -8,13 +8,14 @@ export interface WPPage {
   slug: string;
 }
 
+// lib/api.ts (обновите интерфейс WPPost)
 export interface WPPost {
   id: number;
   title: { rendered: string };
   content: { rendered: string };
   excerpt: { rendered: string };
   slug: string;
-  date: string;
+  date: string; // Добавлено
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string;

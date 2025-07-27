@@ -1,6 +1,8 @@
 // pages/posts/[slug].tsx
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { getPostBySlug, WPPost } from '@/lib/api';
+import Head from 'next/head';
+import { getPostBySlug, getAllPostSlugs, WPPost } from '@/lib/api';
+import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
 interface PostPageProps {
   post: WPPost | null;
@@ -9,25 +11,86 @@ interface PostPageProps {
 
 export default function PostPage({ post, error }: PostPageProps) {
   if (error || !post) {
-    return <div>Ошибка: {error || 'Пост не найден'}</div>;
+    return (
+      <div className="container mx-auto p-4">
+        <div className="text-red-500 text-center py-8">
+          Ошибка: {error || 'Пост не найден'}
+        </div>
+      </div>
+    );
   }
 
+  // Создаем кастомные крошки для поста
+  const customBreadcrumbs = [
+    { label: 'Главная', path: '/' },
+    { label: 'Новости', path: '/posts' },
+    { label: post.title.rendered, path: `/posts/${post.slug}` }
+  ];
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl mb-4">{post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
-    </div>
+    <>
+      <Head>
+        <title>{post.title.rendered}</title>
+        <meta name="description" content={post.excerpt?.rendered || 'Читайте нашу статью'} />
+      </Head>
+      <div className="container mx-auto p-4">
+        {/* Хлебные крошки */}
+        <Breadcrumbs customBreadcrumbs={customBreadcrumbs} />
+        
+        <article className="max-w-3xl mx-auto">
+          <header className="mb-8">
+            <h1 
+              className="text-3xl md:text-4xl font-bold mb-4 text-gray-900"
+              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+            />
+            
+            <div className="flex items-center text-gray-600">
+              <time dateTime={post.date}>
+                {new Date(post.date).toLocaleDateString('ru-RU', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            </div>
+          </header>
+          
+          {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
+            <div className="mb-8">
+              <img 
+                src={post._embedded['wp:featuredmedia'][0].source_url} 
+                alt={post.title.rendered}
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
+          )}
+          
+          <div 
+            className="prose prose-lg max-w-none"
+            dangerouslySetInnerHTML={{ __html: post.content.rendered }} 
+          />
+        </article>
+      </div>
+    </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Здесь нужно получить список всех слагов постов
-  // Для простоты предполагаем, что они известны или можно получить через API
-  const slugs = ['example-slug1', 'example-slug2']; // Замените на реальный вызов API
-  return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
-    fallback: 'blocking', // или 'true' для частичной генерации
-  };
+  try {
+    // Получаем все slug'и постов
+    const slugs = await getAllPostSlugs();
+    const paths = slugs.map((slug) => ({ params: { slug } }));
+    return {
+      paths,
+      fallback: 'blocking',
+    };
+  } catch (error) {
+    console.error('Ошибка при получении slug\'ов постов:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
