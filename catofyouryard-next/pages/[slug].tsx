@@ -2,6 +2,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { getPageBySlug, getAllPageSlugs, WPPage } from '../lib/api';
+import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs';
 
 interface PageProps {
   page: WPPage | null;
@@ -21,9 +22,12 @@ export default function Page({ page, error }: PageProps) {
     <>
       <Head>
         <title>{page.title.rendered}</title>
-        <meta name="description" content={page.excerpt?.rendered || 'Описание страницы'} />
+        <meta name="description" content="Описание страницы" />
       </Head>
       <div className="container mx-auto p-4">
+        {/* Хлебные крошки с заголовком страницы */}
+        <Breadcrumbs currentPageTitle={page.title.rendered} />
+        
         <h1 className="text-3xl mb-6">{page.title.rendered}</h1>
         <div
           className="prose"
