@@ -1,4 +1,6 @@
 // lib/api.ts
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://catsoftoyouryard.local/wp-json';
+
 export interface WPPage {
   id: number;
   title: { rendered: string };
@@ -12,6 +14,7 @@ export interface WPPost {
   content: { rendered: string };
   excerpt: { rendered: string };
   slug: string;
+  date: string;
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string;
@@ -26,19 +29,28 @@ export interface WPPet {
   pet_info?: {
     photo: string;
     age: string;
+    story: string;
+    gender: string;
+    adopted: string;
   };
+}
+
+export interface WPSlide {
+  title: string;
+  image: string;
+  alt: string;
 }
 
 export async function getAllPageSlugs(): Promise<string[]> {
   try {
-    const res = await fetch('http://catsoftoyouryard.local/wp-json/wp/v2/pages', {
+    const res = await fetch(`${API_BASE_URL}/wp/v2/pages`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
     const pages = await res.json();
     return pages.map((page: WPPage) => page.slug);
   } catch (error) {
-    console.error('Ошибка при получении slug’ов страниц:', error);
+    console.error('Ошибка при получении slug\'ов страниц:', error);
     return [];
   }
 }
@@ -46,7 +58,7 @@ export async function getAllPageSlugs(): Promise<string[]> {
 export async function getPageBySlug(slug: string): Promise<WPPage | null> {
   try {
     const res = await fetch(
-      `http://catsoftoyouryard.local/wp-json/wp/v2/pages?slug=${slug}&_embed`,
+      `${API_BASE_URL}/wp/v2/pages?slug=${slug}&_embed`,
       { next: { revalidate: 60 } }
     );
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
@@ -60,14 +72,14 @@ export async function getPageBySlug(slug: string): Promise<WPPage | null> {
 
 export async function getAllPostSlugs(): Promise<string[]> {
   try {
-    const res = await fetch('http://catsoftoyouryard.local/wp-json/wp/v2/posts', {
+    const res = await fetch(`${API_BASE_URL}/wp/v2/posts`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
     const posts = await res.json();
     return posts.map((post: WPPost) => post.slug);
   } catch (error) {
-    console.error('Ошибка при получении slug’ов постов:', error);
+    console.error('Ошибка при получении slug\'ов постов:', error);
     return [];
   }
 }
@@ -75,7 +87,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {
   try {
     const res = await fetch(
-      `http://catsoftoyouryard.local/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+      `${API_BASE_URL}/wp/v2/posts?slug=${slug}&_embed`,
       { next: { revalidate: 60 } }
     );
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
@@ -90,7 +102,7 @@ export async function getPostBySlug(slug: string): Promise<WPPost | null> {
 export async function getPosts(perPage: number = 6, page: number = 1): Promise<WPPost[]> {
   try {
     const res = await fetch(
-      `http://catsoftoyouryard.local/wp-json/wp/v2/posts?_embed&per_page=${perPage}&page=${page}`,
+      `${API_BASE_URL}/wp/v2/posts?_embed&per_page=${perPage}&page=${page}`,
       { next: { revalidate: 60 } }
     );
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
@@ -110,7 +122,7 @@ export async function getPets(): Promise<WPPet[]> {
     
     while (true) {
       const res = await fetch(
-        `http://catsoftoyouryard.local/wp-json/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
+        `${API_BASE_URL}/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
         { next: { revalidate: 60 } }
       );
       
@@ -143,7 +155,7 @@ export async function getPets(): Promise<WPPet[]> {
 export async function getPetBySlug(slug: string): Promise<WPPet | null> {
   try {
     const res = await fetch(
-      `http://catsoftoyouryard.local/wp-json/wp/v2/pets?slug=${slug}&_embed`,
+      `${API_BASE_URL}/wp/v2/pets?slug=${slug}&_embed`,
       { next: { revalidate: 60 } }
     );
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
@@ -152,5 +164,29 @@ export async function getPetBySlug(slug: string): Promise<WPPet | null> {
   } catch (error) {
     console.error(`Ошибка при получении питомца ${slug}:`, error);
     return null;
+  }
+}
+
+// Новый метод для получения слайдов
+export async function getSlides(): Promise<WPSlide[]> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/custom/v1/slider`, {
+      next: { revalidate: 60 },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Отключаем credentials для обхода CORS проблем
+      credentials: 'omit' as RequestCredentials
+    });
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    
+    const slides = await res.json();
+    return Array.isArray(slides) ? slides : [];
+  } catch (error) {
+    console.error('Ошибка при получении слайдов:', error);
+    return [];
   }
 }
