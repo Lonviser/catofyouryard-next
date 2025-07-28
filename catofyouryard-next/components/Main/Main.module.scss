@@ -283,6 +283,23 @@
     }
 }
 
+.page{
+    &__title{
+        color: v.$text-color;
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 122%;
+        text-align: center;
+    }
+    &__info{
+        margin-top: 30px;
+        color: v.$text-color;
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 155%;
+        text-align: center;
+    }
+}
 
 
 @media(min-width:769px) and (max-width: 1600px) {

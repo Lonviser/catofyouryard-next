@@ -55,7 +55,7 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
         <div className="container">
           <div className={styles.section__header}>
             <h2 className={styles.section__title}>Новости</h2>
-            <Link href="/news" className={styles.section__link}>
+            <Link href="/posts" className={styles.section__link}>
               Все новости
             </Link>
           </div>
