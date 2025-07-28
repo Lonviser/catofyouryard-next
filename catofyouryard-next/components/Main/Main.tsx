@@ -51,40 +51,58 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
           </div>
         </div>
       </section>
-      <section className={styles.news}>
-        <div className="container">
-          <div className={styles.section__header}>
-            <h2 className={styles.section__title}>Новости</h2>
-            <Link href="/posts" className={styles.section__link}>
-              Все новости
-            </Link>
-          </div>
-          <ul className={styles.news__blocks}>
-            {posts.map((post) => (
-              <li key={post.id} className={styles.news__block}>
-                {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
+<section className={styles.news}>
+  <div className="container">
+    <div className={styles.section__header}>
+      <h2 className={styles.section__title}>Новости</h2>
+      <Link href="/posts" className={styles.section__link}>
+        Все новости
+      </Link>
+    </div>
+    
+    {posts.length === 0 ? (
+      <p className="text-center py-8">Новости скоро появятся</p>
+    ) : (
+      <div className={styles.news__grid}>
+        {posts.slice(0, 3).map((post) => (
+          <article key={post.id} className={styles.news__item}>
+            <Link href={`/posts/${post.slug}`} className={styles.news__link}>
+              {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
+                <div className={styles.news__imageWrapper}>
                   <Image
                     src={post._embedded['wp:featuredmedia'][0].source_url}
                     alt={post.title.rendered}
-                    width={363}
-                    height={220}
-                    className="w-full h-48 object-cover mb-2"
-                  />
-                )}
-                <div className={styles.news__block_info}>
-                  <h3 className={styles.news__block_title}>
-                    <Link href={`/posts/${post.slug}`}>{post.title.rendered}</Link>
-                  </h3>
-                  <div
-                    className="text-gray-600"
-                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                    width={600}
+                    height={300}
+                    className={styles.news__img}
                   />
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+              )}
+              <div className={styles.news__content}>
+                <h3 className={styles.news__title}>{post.title.rendered}</h3>
+                <div className={styles.news__date}>
+                  <time dateTime={post.date}>
+                    {new Date(post.date).toLocaleDateString('ru-RU', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </time>
+                </div>
+                <div 
+                  className={styles.news__excerpt}
+                  dangerouslySetInnerHTML={{ 
+                    __html: post.excerpt?.rendered || 'Нет описания' 
+                  }} 
+                />
+              </div>
+            </Link>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
       <section className={styles.support}>
         <div className="container">
           <div className={styles.support__container}>

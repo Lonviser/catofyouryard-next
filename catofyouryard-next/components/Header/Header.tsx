@@ -69,7 +69,7 @@ export default function Header() {
                 { href: "/about", text: "О нас" },
                 { href: "/help", text: "Помочь" },
                 { href: "/cats", text: "Взять котика" },
-                { href: "/blog", text: "Блог" },
+                { href: "/posts", text: "Новости" },
                 { href: "/hospital", text: "Домашний стационар" },
                 { href: "/reviews", text: "Отзывы" },
               ].map((item) => (
