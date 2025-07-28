@@ -301,6 +301,12 @@
     }
 }
 
+.accordion{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 @media(min-width:769px) and (max-width: 1600px) {
     .hero{
@@ -415,6 +421,15 @@
             }
         }
     }
+
+    .page{
+    &__title{
+        font-size: 36px;
+    }
+    &__info{
+        font-size: 14px;
+    }
+}
 
 }
 
