@@ -1,4 +1,6 @@
+
 <?php
+//function.php
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
@@ -127,32 +129,40 @@ add_action('rest_api_init', function () {
     ]);
 });
 
-// Разрешаем CORS для разработки
+
+// Добавляем CORS к REST API
+// Улучшенные CORS настройки
 function add_cors_headers() {
-    // Разрешаем запросы только в режиме разработки
-    if (defined('WP_DEBUG') && WP_DEBUG) {
-        header('Access-Control-Allow-Origin: http://localhost:3000');
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-        header('Access-Control-Allow-Credentials: true');
+    // Разрешаем запросы с localhost:3000
+    header("Access-Control-Allow-Origin: http://localhost:3000");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-WP-Nonce");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Max-Age: 86400"); // 24 часа кэширования preflight запросов
+    
+    // Обрабатываем preflight OPTIONS запросы
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(200);
+        exit();
     }
 }
 add_action('init', 'add_cors_headers');
 
-// Обрабатываем preflight OPTIONS запросы
+// Добавляем CORS к REST API
 add_action('rest_api_init', function() {
-    register_rest_route('custom/v1', '/slider', array(
-        'methods' => 'OPTIONS',
-        'callback' => function() {
-            return new WP_REST_Response('', 200);
-        },
-        'permission_callback' => '__return_true',
-    ));
+    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+    add_filter('rest_pre_serve_request', function($value) {
+        header("Access-Control-Allow-Origin: http://localhost:3000");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, X-WP-Nonce");
+        header("Access-Control-Allow-Credentials: true");
+        header("Access-Control-Max-Age: 86400");
+        return $value;
+    });
 });
+
 
 // Preview link filter
 add_filter('preview_post_link', function ($link, $post) {
     return 'http://localhost:3000/api/preview?slug=' . $post->post_name . '&nonce=' . wp_create_nonce('wp_rest');
 }, 10, 2);
-
-?>

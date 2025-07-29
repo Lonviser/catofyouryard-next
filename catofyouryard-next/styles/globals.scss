@@ -85,6 +85,246 @@ a {
   transform: rotate(3deg) translate(0px, -4px);
 }
 
+.has-text-align-center{
+  text-align: center;
+}
+
+.prose {
+  margin-top: 30px;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333;
+  
+  // Параграфы
+  p {
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  
+  // Заголовки
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 16px;
+    margin-top: 24px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  
+  h1 {
+    font-size: 2.25em;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 0.3em;
+  }
+  
+  h2 {
+    font-size: 1.875em;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 0.3em;
+  }
+  
+  h3 {
+    font-size: 1.5em;
+  }
+  
+  h4 {
+    font-size: 1.25em;
+  }
+  
+  h5 {
+    font-size: 1.125em;
+  }
+  
+  h6 {
+    font-size: 1em;
+    color: #666;
+  }
+  
+  // Ссылки
+  a {
+    color: #0070f3;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  // Списки
+  ul, ol {
+    margin-bottom: 16px;
+    padding-left: 32px;
+    
+    li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+  }
+  
+  ul {
+    list-style-type: disc;
+  }
+  
+  ol {
+    list-style-type: decimal;
+  }
+  
+  // Вложенные списки
+  ul ul,
+  ol ol,
+  ul ol,
+  ol ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  // Цитаты
+  blockquote {
+    margin: 16px 0;
+    padding: 0 16px;
+    border-left: 4px solid #0070f3;
+    color: #666;
+    font-style: italic;
+    
+    p {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Код
+  code {
+    padding: 2px 4px;
+    background-color: #f6f8fa;
+    border-radius: 3px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.875em;
+  }
+  
+  pre {
+    margin-bottom: 16px;
+    padding: 16px;
+    overflow: auto;
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    
+    code {
+      padding: 0;
+      background: none;
+      font-size: 0.875em;
+    }
+  }
+  
+  // Таблицы
+  table {
+    width: 100%;
+    margin-bottom: 16px;
+    border-collapse: collapse;
+    
+    th, td {
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #f9fafb;
+      font-weight: 600;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f9fafb;
+    }
+  }
+  
+  // Изображения
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 16px 0;
+    border-radius: 6px;
+  }
+  
+  // Горизонтальная линия
+  hr {
+    margin: 24px 0;
+    border: 0;
+    border-top: 1px solid #eaeaea;
+  }
+  
+  // Выделение текста
+  strong {
+    font-weight: 600;
+  }
+  
+  em {
+    font-style: italic;
+  }
+  
+  // Подчеркнутый текст
+  u {
+    text-decoration: underline;
+  }
+  
+  // Зачеркнутый текст
+  del {
+    text-decoration: line-through;
+  }
+  
+  // Верхний и нижний индексы
+  sub, sup {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  
+  sup {
+    top: -0.5em;
+  }
+  
+  sub {
+    bottom: -0.25em;
+  }
+  
+  // Аббревиатуры
+  abbr[title] {
+    border-bottom: 1px dotted;
+    cursor: help;
+  }
+  
+  // Маленький текст
+  small {
+    font-size: 0.875em;
+    color: #666;
+  }
+  
+  // Маркированный текст
+  mark {
+    background-color: #fff8c5;
+    padding: 0.2em;
+  }
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .prose {
+    font-size: 14px;
+    
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.75em; }
+    h3 { font-size: 1.375em; }
+    h4 { font-size: 1.125em; }
+    
+    ul, ol {
+      padding-left: 24px;
+    }
+    
+    blockquote {
+      padding: 0 12px;
+    }
+  }
+}
+
+
+
 /* Убираем спиннер */
 #nprogress .spinner {
   display: none;

@@ -42,6 +42,7 @@ export interface WPSlide {
   alt: string;
 }
 
+
 export async function getAllPageSlugs(): Promise<string[]> {
   try {
     const res = await fetch(`${API_BASE_URL}/wp/v2/pages`, {
@@ -191,3 +192,4 @@ export async function getSlides(): Promise<WPSlide[]> {
     return [];
   }
 }
+

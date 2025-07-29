@@ -16,19 +16,18 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   if (error || !post) {
-    return <div className="container mx-auto p-4">Ошибка: {error || 'Пост не найден'}</div>;
+    return <div className="">Ошибка: {error || 'Пост не найден'}</div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">{post.title.rendered}</h1>
+    <div className="container">
+      <h1 className={styles.page__title}>{post.title.rendered}</h1>
       {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
         <Image
           src={post._embedded['wp:featuredmedia'][0].source_url}
           alt={post.title.rendered}
           width={800}
           height={400}
-          className="w-full h-auto mb-4"
         />
       )}
       <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />

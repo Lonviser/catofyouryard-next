@@ -71,7 +71,6 @@ export default function Header() {
                 { href: "/cats", text: "Взять котика" },
                 { href: "/posts", text: "Новости" },
                 { href: "/hospital", text: "Домашний стационар" },
-                { href: "/reviews", text: "Отзывы" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} onClick={handleLinkClick}>
