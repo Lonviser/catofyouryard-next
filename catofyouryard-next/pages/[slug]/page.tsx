@@ -1,5 +1,6 @@
 import { getPostBySlug, WPPost } from '@/lib/api';
 import Image from 'next/image';
+import styles from '@/components/Main/Main.module.scss';
 
 interface PostPageProps {
   params: { slug: string };

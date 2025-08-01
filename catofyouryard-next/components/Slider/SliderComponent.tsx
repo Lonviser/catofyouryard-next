@@ -3,51 +3,66 @@
 import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, Pagination } from 'swiper/modules';
+import type { Swiper as SwiperClass } from 'swiper/types'; // Импорт типа Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import 'swiper/css/pagination';
+import Image from 'next/image';
 import styles from './SliderComponent.module.scss';
 
+// Определите интерфейс для слайда
+interface Slide {
+  image: string;
+  alt?: string;
+  title?: string;
+  // Добавьте другие поля, если они есть в ваших данных
+}
+
 export default function SliderComponent() {
-  const swiperRef = useRef(null);
+  // Используем импортированный тип SwiperClass
+  const swiperRef = useRef<SwiperClass | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [slides, setSlides] = useState([]);
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        // Проверяем, работаем ли мы в браузере
         if (typeof window === 'undefined') {
           setLoading(false);
           return;
         }
 
-        // Используем proxy через rewrites
         const endpoint = `/wp-json/custom/v1/slider`;
-        
+
         console.log('Запрос к:', endpoint);
-        
+
         const response = await fetch(endpoint, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
-        const data = await response.json();
+
+        const data: Slide[] = await response.json();
         console.log('Полученные данные:', data);
         setSlides(data);
         setLoading(false);
-      } catch (err) {
+      } catch (err: unknown) { // Используем unknown для лучшей практики
         console.error('Ошибка загрузки слайдов:', err);
-        setError(`Не удалось загрузить слайды: ${err.message}`);
+        let errorMessage = 'Неизвестная ошибка';
+        if (err instanceof Error) {
+          errorMessage = err.message;
+        } else if (typeof err === 'string') {
+          errorMessage = err;
+        }
+        setError(`Не удалось загрузить слайды: ${errorMessage}`);
         setLoading(false);
       }
     };
@@ -55,11 +70,11 @@ export default function SliderComponent() {
     fetchSlides();
   }, []);
 
-  const handleSlideChange = (swiper) => {
+  // Указываем тип для параметра swiper
+  const handleSlideChange = (swiper: SwiperClass) => {
     setActiveIndex(swiper.realIndex);
   };
 
-  // Показываем загрузку на сервере
   if (typeof window === 'undefined') {
     return <div className={styles['slider-container']}>Загрузка...</div>;
   }
@@ -85,6 +100,7 @@ export default function SliderComponent() {
 
   return (
     <div className={styles['slider-container']}>
+      {/* Указываем тип для параметра swiper в onSwiper */}
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
         spaceBetween={30}
@@ -95,7 +111,7 @@ export default function SliderComponent() {
         loop={true}
         className={styles.swiper}
         onSlideChange={handleSlideChange}
-        onSwiper={(swiper) => {
+        onSwiper={(swiper: SwiperClass) => {
           swiperRef.current = swiper;
           setActiveIndex(swiper.realIndex);
         }}
@@ -103,12 +119,15 @@ export default function SliderComponent() {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className={styles['slide-content']}>
-              <img 
-                src={slide.image} 
-                alt={slide.alt || slide.title || 'Изображение слайда'} 
-                className={styles['slide-image']} 
+              <Image
+                src={slide.image}
+                alt={slide.alt || slide.title || 'Изображение слайда'}
+                width={800}
+                height={400}
+                className={styles['slide-image']}
+                unoptimized={true}
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/800x400?text=Image+Not+Found';
+                  console.warn('Ошибка загрузки изображения слайда:', e);
                 }}
               />
               <div className={styles['slide-caption']}>
@@ -118,7 +137,7 @@ export default function SliderComponent() {
           </SwiperSlide>
         ))}
       </Swiper>
-      
+
       {slides.length > 1 && (
         <div className={styles['custom-pagination']}>
           {slides.map((_, index) => (

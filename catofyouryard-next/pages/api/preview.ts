@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.setPreviewData({ slug, nonce });
     res.redirect(`/${slug}`);
   } catch (error) {
-    return res.status(500).json({ message: 'Ошибка сервера' });
+    const message = error instanceof Error ? error.message : 'Ошибка сервера';
+    return res.status(500).json({ message });
   }
 }

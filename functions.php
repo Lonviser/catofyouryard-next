@@ -130,17 +130,13 @@ add_action('rest_api_init', function () {
 });
 
 
-// Добавляем CORS к REST API
-// Улучшенные CORS настройки
 function add_cors_headers() {
-    // Разрешаем запросы с localhost:3000
-    header("Access-Control-Allow-Origin: http://localhost:3000");
+    header("Access-Control-Allow-Origin: http://catsoftoyouryard.local");
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type, Authorization, X-WP-Nonce");
     header("Access-Control-Allow-Credentials: true");
-    header("Access-Control-Max-Age: 86400"); // 24 часа кэширования preflight запросов
-    
-    // Обрабатываем preflight OPTIONS запросы
+    header("Access-Control-Max-Age: 86400");
+
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(200);
         exit();
@@ -148,11 +144,10 @@ function add_cors_headers() {
 }
 add_action('init', 'add_cors_headers');
 
-// Добавляем CORS к REST API
 add_action('rest_api_init', function() {
     remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
     add_filter('rest_pre_serve_request', function($value) {
-        header("Access-Control-Allow-Origin: http://localhost:3000");
+        header("Access-Control-Allow-Origin: http://catsoftoyouryard.local");
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Authorization, X-WP-Nonce");
         header("Access-Control-Allow-Credentials: true");

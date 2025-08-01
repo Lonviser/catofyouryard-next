@@ -15,10 +15,18 @@ export interface WPPost {
   content: { rendered: string };
   excerpt: { rendered: string };
   slug: string;
-  date: string; // Добавлено
+  date: string;
+  author_name?: string; // Add author_name as optional
+  tags_names?: string[]; // Add tags_names as optional
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string;
+    }>;
+    'wp:term'?: Array<Array<{
+      name: string;
+    }>>;
+    author?: Array<{
+      name: string;
     }>;
   };
 }
@@ -27,12 +35,14 @@ export interface WPPet {
   id: number;
   title: { rendered: string };
   slug: string;
+  content?: { rendered: string }; // Add content field
   pet_info?: {
     photo: string;
     age: string;
     story: string;
     gender: string;
     adopted: string;
+    description?: string; // If you added this previously
   };
 }
 
@@ -72,32 +82,58 @@ export async function getPageBySlug(slug: string): Promise<WPPage | null> {
   }
 }
 
-export async function getAllPostSlugs(): Promise<string[]> {
-  try {
-    const res = await fetch(`${API_BASE_URL}/wp/v2/posts`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
-    const posts = await res.json();
-    return posts.map((post: WPPost) => post.slug);
-  } catch (error) {
-    console.error('Ошибка при получении slug\'ов постов:', error);
-    return [];
-  }
-}
-
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/wp/v2/posts?slug=${slug}&_embed`,
+      `${API_BASE_URL}/wp/v2/posts?slug=${slug}&_embed=wp:featuredmedia,author,wp:term`,
       { next: { revalidate: 60 } }
     );
     if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
     const posts = await res.json();
-    return posts.length > 0 ? posts[0] : null;
+    if (posts.length === 0) return null;
+
+    const post = posts[0];
+    return {
+      ...post,
+      author_name: post._embedded?.author?.[0]?.name || '', // Extract author name
+      tags_names: post._embedded?.['wp:term']?.[0]?.map((tag: { name: string }) => tag.name) || [], // Extract tag names
+    };
   } catch (error) {
     console.error(`Ошибка при получении поста ${slug}:`, error);
     return null;
+  }
+}
+
+export async function getAllPostSlugs(): Promise<string[]> {
+  try {
+    let allSlugs: string[] = [];
+    let page = 1;
+    const perPage = 100;
+
+    while (true) {
+      const res = await fetch(`${API_BASE_URL}/wp/v2/posts?per_page=${perPage}&page=${page}`, {
+        next: { revalidate: 60 },
+      });
+      if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
+      const posts = await res.json();
+
+      if (!Array.isArray(posts) || posts.length === 0) {
+        break;
+      }
+
+      allSlugs = allSlugs.concat(posts.map((post: WPPost) => post.slug));
+
+      if (posts.length < perPage) {
+        break;
+      }
+
+      page++;
+    }
+
+    return allSlugs;
+  } catch (error) {
+    console.error('Ошибка при получении slug\'ов постов:', error);
+    return [];
   }
 }
 
@@ -116,38 +152,15 @@ export async function getPosts(perPage: number = 6, page: number = 1): Promise<W
   }
 }
 
-export async function getPets(): Promise<WPPet[]> {
+export async function getPets(perPage: number = 10, page: number = 1): Promise<WPPet[]> {
   try {
-    let allPets: WPPet[] = [];
-    let page = 1;
-    const perPage = 100;
-    
-    while (true) {
-      const res = await fetch(
-        `${API_BASE_URL}/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
-        { next: { revalidate: 60 } }
-      );
-      
-      if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
-      
-      const pets = await res.json();
-      
-      if (!Array.isArray(pets) || pets.length === 0) {
-        break;
-      }
-      
-      allPets = allPets.concat(pets);
-      
-      // Если получили меньше, чем запрашивали - значит это последняя страница
-      if (pets.length < perPage) {
-        break;
-      }
-      
-      page++;
-    }
-    
-    console.log('Получены все котики:', allPets);
-    return allPets;
+    const res = await fetch(
+      `${API_BASE_URL}/wp/v2/pets?_embed&per_page=${perPage}&page=${page}`,
+      { next: { revalidate: 60 } }
+    );
+    if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
+    const pets = await res.json();
+    return Array.isArray(pets) ? pets : [];
   } catch (error) {
     console.error('Ошибка при загрузке котиков:', error);
     return [];

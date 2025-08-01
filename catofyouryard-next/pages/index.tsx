@@ -1,3 +1,4 @@
+// pages/index.tsx
 import Main from '@/components/Main/Main';
 import { getPosts, WPPost, getPets, WPPet } from '@/lib/api';
 import { useRouter } from 'next/router';
@@ -20,17 +21,16 @@ export default function Home({ posts, pets, error, page }: HomeProps) {
     }
   }, [page, currentPage, router]);
 
-  return <Main posts={posts} pets={pets} error={error} page={page} />;
+  return <Main posts={posts} pets={pets} error={error} />;
 }
 
 export const getStaticProps = async (context: { query?: { page?: string } }) => {
   const page = parseInt(context.query?.page || '1', 10);
   try {
     const posts = await getPosts(6, page);
-    const pets = await getPets(3, 1); // Запрашиваем, например, 3 котика для главной страницы
+    const pets = await getPets(3, 1);
     return {
       props: { posts, pets, page },
-      revalidate: 60,
     };
   } catch (error) {
     return {
@@ -40,7 +40,6 @@ export const getStaticProps = async (context: { query?: { page?: string } }) => 
         error: error instanceof Error ? error.message : 'Неизвестная ошибка',
         page,
       },
-      revalidate: 60,
     };
   }
 };

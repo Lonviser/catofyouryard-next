@@ -1,8 +1,9 @@
-// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export',
   images: {
+    unoptimized: true, // Отключаем оптимизацию изображений
     remotePatterns: [
       {
         protocol: 'http',
@@ -10,14 +11,6 @@ const nextConfig = {
         pathname: '/wp-content/uploads/**',
       },
     ],
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/wp-json/:path*',
-        destination: 'http://catsoftoyouryard.local/wp-json/:path*',
-      },
-    ];
   },
 };
 

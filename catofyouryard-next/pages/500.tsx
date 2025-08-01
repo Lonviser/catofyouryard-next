@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function ServerError() {
   return (
     <div className="text-center py-16">

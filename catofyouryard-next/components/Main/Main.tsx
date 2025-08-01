@@ -1,18 +1,17 @@
+// components/Main/Main.tsx
 import styles from './Main.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
-import { WPPost } from '@/lib/api';
-import { getPets, WPPet } from '@/lib/api';
-import SliderComponent from '../Slider/SliderComponent';
+import { WPPost, WPPet } from '@/lib/api';
+import sanitizeHtml from 'sanitize-html';
 
 interface MainProps {
   posts: WPPost[];
   pets?: WPPet[];
   error?: string;
-  page?: number;
 }
 
-export default function Main({ posts, error, pets = [], page }: MainProps) {
+export default function Main({ posts, error, pets = [] }: MainProps) {
   if (error) {
     return (
       <div className="text-red-500 text-center">
@@ -28,14 +27,18 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
     <main className={styles.main}>
       <section className={styles.hero}>
         <h2 className={styles.hero__title}>Взять котика домой</h2>
-        <Link className={styles.hero__button} href="/cats">Найти друга</Link>
+        <Link className={styles.hero__button} href="/cats">
+          Найти друга
+        </Link>
       </section>
       <section className={styles.about}>
         <div className="container">
           <div className={styles.about__container}>
             <div className={styles.about__content}>
-              <h2 className={styles.about__title}>Проект "Кошки Вашего двора"</h2>
-              <p>"Кошки Вашего двора» - это проект нескольких волонтеров, посвятивших свою  жизнь спасению животных, и представляет собой сообщество,  организовавшее частный "приют-передержку",  в котором содержатся кошки,  попавшие в беду или пострадавшие на улицах города, принятые  нами на лечение и выхаживание, с последующим пристройством в добрые руки (по возможности).  Местонахождение –  с. Печерск Смоленской области.В своей работе мы стараемся сочетать клинический профессиональный подход к лечению животных с волонтерской эмпатией спасателей: если после спасения даже у тяжелого животного есть шанс, то мы вместе с врачами сражаемся за его жизнь до последнего.</p>
+              <h2 className={styles.about__title}>Проект &quot;Кошки Вашего двора&quot;</h2>
+              <p>
+                &quot;Кошки Вашего двора&quot; - это проект нескольких волонтеров, посвятивших свою жизнь спасению животных, и представляет собой сообщество, организовавшее частный &quot;приют-передержку&quot;, в котором содержатся кошки, попавшие в беду или пострадавшие на улицах города, принятые нами на лечение и выхаживание, с последующим пристройством в добрые руки (по возможности). Местонахождение – с. Печерск Смоленской области. В своей работе мы стараемся сочетать клинический профессиональный подход к лечению животных с волонтерской эмпатией спасателей: если после спасения даже у тяжелого животного есть шанс, то мы вместе с врачами сражаемся за его жизнь до последнего.
+              </p>
               <Link href="/about" className={styles.about__link}>
                 Подробнее о нас
               </Link>
@@ -51,58 +54,61 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
           </div>
         </div>
       </section>
-<section className={styles.news}>
-  <div className="container">
-    <div className={styles.section__header}>
-      <h2 className={styles.section__title}>Новости</h2>
-      <Link href="/posts" className={styles.section__link}>
-        Все новости
-      </Link>
-    </div>
-    
-    {posts.length === 0 ? (
-      <p className="text-center py-8">Новости скоро появятся</p>
-    ) : (
-      <div className={styles.news__grid}>
-        {posts.slice(0, 3).map((post) => (
-          <article key={post.id} className={styles.news__item}>
-            <Link href={`/posts/${post.slug}`} className={styles.news__link}>
-              {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
-                <div className={styles.news__imageWrapper}>
-                  <Image
-                    src={post._embedded['wp:featuredmedia'][0].source_url}
-                    alt={post.title.rendered}
-                    width={600}
-                    height={300}
-                    className={styles.news__img}
-                  />
-                </div>
-              )}
-              <div className={styles.news__content}>
-                <h3 className={styles.news__title}>{post.title.rendered}</h3>
-                <div className={styles.news__date}>
-                  <time dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString('ru-RU', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </time>
-                </div>
-                <div 
-                  className={styles.news__excerpt}
-                  dangerouslySetInnerHTML={{ 
-                    __html: post.excerpt?.rendered || 'Нет описания' 
-                  }} 
-                />
-              </div>
+      <section className={styles.news}>
+        <div className="container">
+          <div className={styles.section__header}>
+            <h2 className={styles.section__title}>Новости</h2>
+            <Link href="/posts" className={styles.section__link}>
+              Все новости
             </Link>
-          </article>
-        ))}
-      </div>
-    )}
-  </div>
-</section>
+          </div>
+
+          {posts.length === 0 ? (
+            <p className="text-center py-8">Новости скоро появятся</p>
+          ) : (
+            <div className={styles.news__grid}>
+              {posts.slice(0, 3).map((post) => (
+                <article key={post.id} className={styles.news__item}>
+                  <Link href={`/posts/${post.slug}`} className={styles.news__link}>
+                    {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
+                      <div className={styles.news__imageWrapper}>
+                        <Image
+                          src={post._embedded['wp:featuredmedia'][0].source_url}
+                          alt={post.title.rendered}
+                          width={600}
+                          height={300}
+                          className={styles.news__img}
+                        />
+                      </div>
+                    )}
+                    <div className={styles.news__content}>
+                      <h3 className={styles.news__title}>{post.title.rendered}</h3>
+                      <div className={styles.news__date}>
+                        <time dateTime={post.date}>
+                          {new Date(post.date).toLocaleDateString('ru-RU', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </time>
+                      </div>
+                      <div
+                        className={styles.news__excerpt}
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHtml(post.excerpt?.rendered || 'Нет описания', {
+                            allowedTags: ['p', 'strong', 'em'],
+                            allowedAttributes: {},
+                          }),
+                        }}
+                      />
+                    </div>
+                  </Link>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
       <section className={styles.support}>
         <div className="container">
           <div className={styles.support__container}>
@@ -150,7 +156,9 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
                     <h3 className={styles.cats__block_title}>
                       <Link href={`/pets/${pet.slug}`}>{pet.title.rendered}</Link>
                     </h3>
-                    <Link className={styles.cats__block_link} href={`/pets/${pet.slug}`}>Подробнее</Link>
+                    <Link className={styles.cats__block_link} href={`/pets/${pet.slug}`}>
+                      Подробнее
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -158,19 +166,15 @@ export default function Main({ posts, error, pets = [], page }: MainProps) {
           </div>
         </div>
       </section>
-
-      <section className={styles.happycats}>
-
+      {/* <section className={styles.happycats}>
         <div className="container">
-         <h2 className={styles.happycats__title}>Радуемся за наших котиков</h2>
-         <p className={styles.happycats__text}>
+          <h2 className={styles.happycats__title}>Радуемся за наших котиков</h2>
+          <p className={styles.happycats__text}>
             Здесь вы можете увидеть главный итог нашей общей поддержки котиков. Эти фотографии подтверждают: у каждого маленького хвостика есть шанс на счастливое будущее! Когда позади остаются суровая уличная жизнь с ее опасностями, серьезные травмы и болезни, сложные операции и долгий путь восстановления — приходит долгожданное счастье. Но для этого нам с вами нужно приложить усилия! Прокрутите фото котиков, которые мы разместили выше: они до сих пор ждут своего хозяина! Может быть, этим человеком станете вы?
-         </p>
-          <SliderComponent></SliderComponent>
-
+          </p>
+          <SliderComponent />
         </div>
-
-      </section>
+      </section> */}
     </main>
   );
 }
